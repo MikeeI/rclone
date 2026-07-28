@@ -20,6 +20,13 @@ The core parts of rclone under `fs` and `vfs` need to work with all backends and
 
 Make sure added tests **actually test the code you have written** and test the intention behind the change. If you are fixing a problem, write the tests first to reproduce the problem before starting on the fix.
 
+## Finding Ledger
+
+- At the start of every agent session, agents MUST read the root `ISSUES.md` before any repository work.
+- Agents MUST update `ISSUES.md` in the same task whenever a finding is discovered or its status or location changes.
+- Every entry MUST contain a title, exactly three summary bullet lines, a publication status, and a location.
+- Use `Location: Not published.` when no external report exists; `FORMAT.md` remains authoritative for publication.
+
 ## Build and Test Commands
 
 ```bash
