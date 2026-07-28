@@ -2,7 +2,8 @@
 
 ## Authority
 
-This file is the single source of truth for reporting findings to the rclone project through GitHub issues and comments.
+This file is the single source of truth for reporting rules for findings sent to the rclone project.
+`ISSUES.md` is the sole source of truth for finding IDs, lifecycle status, and published locations.
 
 - The goal is to report findings only.
 - Never create, draft, offer, or propose a pull request.
@@ -16,13 +17,14 @@ This file is the single source of truth for reporting findings to the rclone pro
 
 Before drafting anything:
 
-1. Read the current upstream contribution guide and applicable issue template.
-2. Search open and closed issues for the same symptom, root cause, backend, and relevant symbols.
-3. Search open and merged pull requests for changes that own or introduced the relevant code.
-4. Search rclone forum discussions for the same symptom, root cause, backend, and relevant symbols.
-5. Read every potentially relevant issue, comment, pull request, review, forum thread, and current diff.
-6. Verify all source claims against the current upstream implementation and pinned dependency contracts.
-7. Record which effects are observed, source-proven, assumed, or not yet measured.
+1. Read `ISSUES.md` and use its current finding ID, lifecycle status, target, and published location.
+2. Read the current upstream contribution guide and applicable issue template.
+3. Search open and closed issues for the same symptom, root cause, backend, and relevant symbols.
+4. Search open and merged pull requests for changes that own or introduced the relevant code.
+5. Search rclone forum discussions for the same symptom, root cause, backend, and relevant symbols.
+6. Read every potentially relevant issue, comment, pull request, review, forum thread, and current diff.
+7. Verify all source claims against the current upstream implementation and pinned dependency contracts.
+8. Record which effects are observed, source-proven, assumed, or not yet measured.
 
 A search result is only a candidate target.
 A matching word or symptom does not prove that an existing thread owns the same root cause.
@@ -266,6 +268,7 @@ For multiple findings, preserve their existing IDs and never combine independent
 Before publishing, verify every item:
 
 - The target still exists and its state has not changed.
+- The finding's ID, lifecycle status, target, and published location match `ISSUES.md`.
 - The draft matches the latest source or current pull request diff.
 - The report adds information not already present.
 - Every material claim has evidence or an explicit uncertainty label.
@@ -275,7 +278,8 @@ Before publishing, verify every item:
 - The applicable duplicate-search statement is present and every plausible prior-art candidate was fully read.
 - The user approved the exact target and final text.
 
-After publication, return only the created issue or comment URLs and a concise status.
+After publication, record the exact target, published status, and URL in `ISSUES.md` before returning only the
+created issue or comment URLs and a concise status.
 
 ## Prohibited Actions
 
