@@ -123,3 +123,16 @@ Location: Not published.
 
 Status: Drafted as an enhancement issue; not published.
 Location: Not published.
+
+# Command Comments
+
+This section tracks published command-related comments and their external location.
+
+## #8127 comment — Support --files-from for copyUrl command
+
+- The comment identifies a separate HTTP client and transport for every CSV entry processed by `copyurl --urls`.
+- It proposes one batch-owned client so completed transfers to the same host can reuse pooled connections.
+- It asks whether that design would be acceptable as a small follow-up to the implementation from PR #8810.
+
+Status: Published as a comment on a closed GitHub issue.
+Location: [rclone/rclone#8127 comment](https://github.com/rclone/rclone/issues/8127#issuecomment-5087488288)
