@@ -112,8 +112,17 @@ Location: Not published.
 - Its current dead-connection paths discard references without explicitly closing the caller-owned TCP transport.
 - The ownership gap is source-proven; transport-resource growth has not been measured.
 
-Status: Classified for a comment on open PR #9388; not published.
-Location: Not published.
+Status: Published as a comment on open GitHub pull request #9388.
+Location: [rclone/rclone#9388 P1 comment](https://github.com/rclone/rclone/pull/9388#issuecomment-5108852112)
+
+## PR #9388 P4 comment — smb: prefer matching-share connections before remounting
+
+- `getConnection` removes the FIFO head without first looking for a later connection with the requested `shareName`.
+- It calls `mountShare` while holding `poolMu`, so a share change may perform `Umount` and `Mount` under the lock.
+- The flow is source-proven; mixed-share remount counts and latency impact have not been measured.
+
+Status: Published as a comment on open GitHub pull request #9388.
+Location: [rclone/rclone#9388 P4 comment](https://github.com/rclone/rclone/pull/9388#issuecomment-5108715075)
 
 ## P6 — smb: DirMove reports destination exists for unrelated Stat errors
 
