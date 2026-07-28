@@ -80,8 +80,8 @@ Location: [rclone/rclone#9675](https://github.com/rclone/rclone/issues/9675)
 - The probe and rename can address different paths when SMB filename encoding transforms the destination.
 - The mismatch is source-proven, but no encoded-destination failure has been reproduced against an SMB server.
 
-Status: Drafted as an enhancement issue; not published.
-Location: Not published.
+Status: Published as an open GitHub issue.
+Location: [rclone/rclone#9677](https://github.com/rclone/rclone/issues/9677)
 
 ### P2 — smb: operation contexts do not cancel established SMB I/O
 
@@ -89,7 +89,7 @@ Location: Not published.
 - SMB operation contexts currently affect connection setup but do not cancel later share I/O.
 - The limitation is documented in merged PR #8327; no stuck cancellation scenario has been reproduced.
 
-Status: Hold; not published.
+Status: Drafted as an enhancement issue; not published.
 Location: Not published.
 
 ### P3 — smb: failed connection setup paths do not close the TCP connection
@@ -98,8 +98,8 @@ Location: Not published.
 - Errors from `obscure.Reveal`, `GetClient`, or `DialConn` return without explicitly closing the caller-owned connection.
 - The ownership gap is source-proven; file-descriptor or connection growth has not been measured.
 
-Status: Drafted as an enhancement issue; not published.
-Location: Not published.
+Status: Published as an open GitHub issue.
+Location: [rclone/rclone#9678](https://github.com/rclone/rclone/issues/9678)
 
 ### P4 — smb: Put can return nil when an upload error leaves the object behind
 
@@ -107,8 +107,8 @@ Location: Not published.
 - The destination can remain after failed cleanup or a `SetModTime` error following a completed upload.
 - The return-contract mismatch is source-proven; downstream retry and cleanup effects have not been reproduced.
 
-Status: Drafted as an enhancement issue; not published.
-Location: Not published.
+Status: Published as an open GitHub issue.
+Location: [rclone/rclone#9679](https://github.com/rclone/rclone/issues/9679)
 
 ### P5 — smb: dead pooled connections can be discarded without closing the TCP transport
 
@@ -134,8 +134,8 @@ Location: [rclone/rclone#9388 P4 comment](https://github.com/rclone/rclone/pull/
 - A successful `Stat` and every other error both produce `fs.ErrorDirExists`.
 - The mapping is source-proven, but permission and transport failure cases have not been reproduced.
 
-Status: Drafted as an enhancement issue; not published.
-Location: Not published.
+Status: Published as an open GitHub issue.
+Location: [rclone/rclone#9680](https://github.com/rclone/rclone/issues/9680)
 
 ## Command Comments
 
