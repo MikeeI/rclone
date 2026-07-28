@@ -58,8 +58,8 @@ Location: Not published.
 - `uploadChunked` allocates the configured 48 MiB chunk buffer without considering the known source size.
 - The heap allocation is source-proven; peak RSS, garbage collection, and upload-time impact are not measured.
 
-Status: Drafted as an enhancement issue; not published.
-Location: Not published.
+Status: Published as an open GitHub issue.
+Location: [rclone/rclone#9685](https://github.com/rclone/rclone/issues/9685)
 
 ### P6 — dropbox: known single-chunk uploads send an extra empty append request
 
@@ -67,8 +67,8 @@ Location: Not published.
 - The following loop iteration sends an empty `UploadSessionAppendV2` call with `Close=true`.
 - The extra data-transport call is source-proven; latency and rate-limit impact are not measured.
 
-Status: Drafted as an enhancement issue; not published.
-Location: Not published.
+Status: Published as an open GitHub issue.
+Location: [rclone/rclone#9686](https://github.com/rclone/rclone/issues/9686)
 
 ### P7 — dropbox: backend SDK calls do not propagate caller cancellation
 
@@ -76,8 +76,8 @@ Location: Not published.
 - The SDK wrappers run requests with `context.Background()`, while rclone checks cancellation only after each call returns.
 - Missing in-flight cancellation is source-proven; shutdown delay and transfer impact are not measured.
 
-Status: Drafted as an enhancement issue; not published.
-Location: Not published.
+Status: Published as an open GitHub issue.
+Location: [rclone/rclone#9688](https://github.com/rclone/rclone/issues/9688)
 
 ## Drive Issues
 
