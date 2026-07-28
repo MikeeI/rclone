@@ -52,6 +52,46 @@ Location: Not published.
 Status: Hold; not published.
 Location: Not published.
 
+## Drive Issues
+
+This section tracks the Google Drive findings, their publication state, and their external location when published.
+
+### P1 — drive: Rmdir lists trashed children when use_trash is enabled
+
+- `purgeCheck` lists the directory with `includeAll=true`, causing the Drive API to return trashed children.
+- When `UseTrash` is enabled, only non-trashed child existence affects whether `Rmdir` may remove the directory.
+- The full listing is source-proven; request count, listing latency, and trashed-child cardinality are not measured.
+
+Status: Drafted as an enhancement issue; not published.
+Location: Not published.
+
+### CP2 — drive: permission cache mutex serializes metadata fetches
+
+- `parseMetadata` starts one bounded goroutine for every permission ID that needs fetching.
+- `getPermission` holds `permissionsMu` across the complete `Permissions.Get` API call, serializing those goroutines.
+- The serialization is source-proven; permission cardinality, request concurrency, and latency impact are not measured.
+
+Status: Drafted as an enhancement issue; not published.
+Location: Not published.
+
+### CP3 — drive: shortcut targets are resolved serially during listing
+
+- The Drive listing loop calls `resolveShortcut` inline before processing the next listed item.
+- `resolveShortcut` performs a separate `Files.Get` request for each shortcut target.
+- The request chain is source-proven; shortcut density, listing latency, and pacer impact are not measured.
+
+Status: Drafted as an enhancement issue; not published.
+Location: Not published.
+
+### CP5 — drive: resumable uploads allocate a new chunk buffer per file
+
+- `resumableUpload.Upload` allocates a full `chunk_size` byte slice when each chunked upload starts.
+- The buffer is reused for that file's chunks but is not reused by later uploads.
+- Allocation reuse is source-proven; allocation volume, GC cost, and throughput impact are not measured.
+
+Status: Drafted as an enhancement issue; not published.
+Location: Not published.
+
 ## SMB Issues
 
 This section tracks the SMB findings, their publication state, and their external location when published.
