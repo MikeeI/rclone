@@ -47,3 +47,79 @@ Location: Not published.
 
 Status: Hold; not published.
 Location: Not published.
+
+# SMB Issues
+
+This section tracks the SMB findings, their publication state, and their external location when published.
+
+## #9674 — smb: Kerberos client cache is recreated for every connection
+
+- The SMB dial path creates a new `KerberosFactory` for every Kerberos connection.
+- Its client, error, and ccache-mtime caches are instance-local and are discarded after one `GetClient` call.
+- Repeated parsing and client construction are source-proven; authentication latency and KDC requests are not measured.
+
+Status: Published as an open GitHub issue.
+Location: [rclone/rclone#9674](https://github.com/rclone/rclone/issues/9674)
+
+## #9675 — smb: upload retains one connection while SetModTime acquires another
+
+- `Object.Update` retains the upload connection until its deferred return after the file has been closed.
+- The following `SetModTime` call acquires a separate connection for `Chtimes` and `Stat`.
+- The overlapping lifetime is source-proven; connection-count, session-count, and latency impact are not measured.
+
+Status: Published as an open GitHub issue.
+Location: [rclone/rclone#9675](https://github.com/rclone/rclone/issues/9675)
+
+## P1 — smb: DirMove checks the destination using a different path representation
+
+- `DirMove` calls `Stat(dstPath)` before renaming with `f.toSambaPath(dstPath)`.
+- The probe and rename can address different paths when SMB filename encoding transforms the destination.
+- The mismatch is source-proven, but no encoded-destination failure has been reproduced against an SMB server.
+
+Status: Drafted as an enhancement issue; not published.
+Location: Not published.
+
+## P2 — smb: operation contexts do not cancel established SMB I/O
+
+- `go-smb2` uses `context.Background()` for established sessions and shares unless `WithContext` is called.
+- SMB operation contexts currently affect connection setup but do not cancel later share I/O.
+- The limitation is documented in merged PR #8327; no stuck cancellation scenario has been reproduced.
+
+Status: Hold; not published.
+Location: Not published.
+
+## P3 — smb: failed connection setup paths do not close the TCP connection
+
+- `Fs.dial` opens `tconn` before password decoding, Kerberos client creation, and the SMB handshake.
+- Errors from `obscure.Reveal`, `GetClient`, or `DialConn` return without explicitly closing the caller-owned connection.
+- The ownership gap is source-proven; file-descriptor or connection growth has not been measured.
+
+Status: Drafted as an enhancement issue; not published.
+Location: Not published.
+
+## P4 — smb: Put can return nil when an upload error leaves the object behind
+
+- `Put` and `PutStream` return `nil, err` for every `Object.Update` failure.
+- The destination can remain after failed cleanup or a `SetModTime` error following a completed upload.
+- The return-contract mismatch is source-proven; downstream retry and cleanup effects have not been reproduced.
+
+Status: Drafted as an enhancement issue; not published.
+Location: Not published.
+
+## P5 — smb: dead pooled connections can be discarded without closing the TCP transport
+
+- Open PR #9388 changes the exact connection-pool and file-pool discard lifecycle.
+- Its current dead-connection paths discard references without explicitly closing the caller-owned TCP transport.
+- The ownership gap is source-proven; transport-resource growth has not been measured.
+
+Status: Classified for a comment on open PR #9388; not published.
+Location: Not published.
+
+## P6 — smb: DirMove reports destination exists for unrelated Stat errors
+
+- `DirMove` performs the rename only when the destination `Stat` returns `os.IsNotExist`.
+- A successful `Stat` and every other error both produce `fs.ErrorDirExists`.
+- The mapping is source-proven, but permission and transport failure cases have not been reproduced.
+
+Status: Drafted as an enhancement issue; not published.
+Location: Not published.
