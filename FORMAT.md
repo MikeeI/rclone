@@ -19,9 +19,10 @@ Before drafting anything:
 1. Read the current upstream contribution guide and applicable issue template.
 2. Search open and closed issues for the same symptom, root cause, backend, and relevant symbols.
 3. Search open and merged pull requests for changes that own or introduced the relevant code.
-4. Read every potentially relevant issue, pull request, review comment, and current diff before choosing a target.
-5. Verify all source claims against the current upstream implementation and pinned dependency contracts.
-6. Record which effects are observed, source-proven, assumed, or not yet measured.
+4. Search rclone forum discussions for the same symptom, root cause, backend, and relevant symbols.
+5. Read every potentially relevant issue, comment, pull request, review, forum thread, and current diff.
+6. Verify all source claims against the current upstream implementation and pinned dependency contracts.
+7. Record which effects are observed, source-proven, assumed, or not yet measured.
 
 A search result is only a candidate target.
 A matching word or symptom does not prove that an existing thread owns the same root cause.
@@ -107,6 +108,25 @@ Rules:
 - Use exact `path:line`, function, method, field, error, and API names where they disambiguate the claim.
 - Link the relevant issue or pull request when it establishes design intent or historical ownership.
 
+## Duplicate-Search Statement
+
+Every proposed report must include the applicable exact statement after its question and before its involvement text.
+
+For a new issue:
+
+```text
+I checked all relevant issues, comments, pull requests, and forum threads; this report is not a duplicate.
+```
+
+For an existing issue or pull request comment:
+
+```text
+I checked all relevant issues, comments, pull requests, and forum threads; this evidence is not already reported.
+```
+
+Make this confirmation only after completing the required research and fully reading every plausible prior-art candidate.
+If any plausible candidate is unavailable or unread, hold the finding instead.
+
 ## Tone Contract
 
 - Start with appreciation when commenting on another contributor's work.
@@ -155,6 +175,8 @@ Title rules:
 
 <One concrete question about ownership, expected behavior, or the preferred direction.>
 
+I checked all relevant issues, comments, pull requests, and forum threads; this report is not a duplicate.
+
 ## Involvement
 
 I am reporting this finding only and am not currently proposing a pull request.
@@ -193,6 +215,8 @@ I noticed one detail that may be relevant to the same root cause:
 
 <One concise question or proposed next diagnostic step.>
 
+I checked all relevant issues, comments, pull requests, and forum threads; this evidence is not already reported.
+
 I am only reporting the finding and am not currently proposing a pull request.
 
 Investigated extensively with GPT-5.6 Sol (xhigh reasoning effort), using [Oh My Pi](https://github.com/can1357/oh-my-pi) as the agent framework.
@@ -213,6 +237,7 @@ While reading the current diff, I noticed one possible <lifecycle, ownership, re
 
 Would it make sense to <one focused question or suggestion>?
 I may be missing ownership handled elsewhere.
+I checked all relevant issues, comments, pull requests, and forum threads; this evidence is not already reported.
 I am not suggesting a broader scope change or a separate pull request.
 
 Investigated extensively with GPT-5.6 Sol (xhigh reasoning effort), using [Oh My Pi](https://github.com/can1357/oh-my-pi) as the agent framework.
@@ -247,6 +272,7 @@ Before publishing, verify every item:
 - The tone is friendly and non-accusatory.
 - The report contains no pull request offer or implementation commitment.
 - The exact disclosure footer is the final paragraph.
+- The applicable duplicate-search statement is present and every plausible prior-art candidate was fully read.
 - The user approved the exact target and final text.
 
 After publication, return only the created issue or comment URLs and a concise status.
