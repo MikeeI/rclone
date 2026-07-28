@@ -79,6 +79,59 @@ Location: [rclone/rclone#9686](https://github.com/rclone/rclone/issues/9686)
 Status: Published as an open GitHub issue.
 Location: [rclone/rclone#9688](https://github.com/rclone/rclone/issues/9688)
 
+### P8 — dropbox: direct lookup of an exported Paper file duplicates its extension
+
+- `NewObject` preserves the caller-visible export path while resolving metadata from a possible underlying Paper path.
+- `setMetadataForExport` then appends the selected export extension to that already suffixed remote name.
+- The duplicate object name is source-proven; downstream command and API effects have not been reproduced.
+
+Status: Published as an open GitHub issue.
+Location: [rclone/rclone#9691](https://github.com/rclone/rclone/issues/9691)
+
+### P9 — dropbox: ChangeNotify root trimming assumes matching PathDisplay casing
+
+- `changeNotifyRunner` removes the configured root from `PathDisplay` with case-sensitive `strings.TrimPrefix`.
+- The pinned Dropbox SDK documents that `PathDisplay` casing may not match the user's filesystem in rare instances.
+- The relative-path mismatch is source-proven; resulting VFS cache behavior has not been reproduced.
+
+Status: Published as an open GitHub issue.
+Location: [rclone/rclone#9692](https://github.com/rclone/rclone/issues/9692)
+
+## Core Issues
+
+This section tracks findings in backend-independent core packages.
+
+### P1 — batcher: Commit can be admitted after the shutdown marker
+
+- `Commit` checks `closed` separately from sending its request to the batcher's input channel.
+- `Shutdown` can enqueue the quit request between those operations, leaving the admitted commit behind the marker.
+- The interleaving is source-proven; runtime frequency and a live blocked caller have not been measured.
+
+Status: Published as an open GitHub issue.
+Location: [rclone/rclone#9687](https://github.com/rclone/rclone/issues/9687)
+
+### P2 — batcher: Commit ignores caller cancellation while waiting
+
+- `Commit` accepts a caller context but uses unconditional channel operations for admission and synchronous response waiting.
+- Historical issue #7025 proposed selecting on `ctx.Done()`, while PR #7026 fixed a different signaling condition.
+- Missing cancellation is source-proven; blocked-caller duration and teardown impact have not been measured.
+
+Status: Published as an open GitHub issue.
+Location: [rclone/rclone#9690](https://github.com/rclone/rclone/issues/9690)
+
+## VFS Issues
+
+This section tracks findings in the virtual filesystem layer.
+
+### P1 — vfs: poll interval update can race with VFS shutdown
+
+- The `vfs/poll-interval` handler checks `pollChan` and later sends to it without lifecycle-spanning synchronization.
+- `VFS.Shutdown` can close and clear the same channel between the handler's check and send.
+- The send-on-closed-channel race is source-proven; a live panic and its runtime frequency have not been measured.
+
+Status: Published as an open GitHub issue.
+Location: [rclone/rclone#9689](https://github.com/rclone/rclone/issues/9689)
+
 ## Drive Issues
 
 This section tracks the Google Drive findings, their publication state, and their external location when published.
