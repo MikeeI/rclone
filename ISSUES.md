@@ -52,6 +52,33 @@ Location: Not published.
 Status: Hold; not published.
 Location: Not published.
 
+### P5 — dropbox: small batched uploads allocate a full chunk-size retry buffer
+
+- Default synchronous batching routes known small files through `uploadChunked`.
+- `uploadChunked` allocates the configured 48 MiB chunk buffer without considering the known source size.
+- The heap allocation is source-proven; peak RSS, garbage collection, and upload-time impact are not measured.
+
+Status: Drafted as an enhancement issue; not published.
+Location: Not published.
+
+### P6 — dropbox: known single-chunk uploads send an extra empty append request
+
+- A known positive size up to one chunk is first appended with `Close=false`.
+- The following loop iteration sends an empty `UploadSessionAppendV2` call with `Close=true`.
+- The extra data-transport call is source-proven; latency and rate-limit impact are not measured.
+
+Status: Drafted as an enhancement issue; not published.
+Location: Not published.
+
+### P7 — dropbox: backend SDK calls do not propagate caller cancellation
+
+- Dropbox client fields use non-context SDK interfaces even though backend methods receive a caller context.
+- The SDK wrappers run requests with `context.Background()`, while rclone checks cancellation only after each call returns.
+- Missing in-flight cancellation is source-proven; shutdown delay and transfer impact are not measured.
+
+Status: Drafted as an enhancement issue; not published.
+Location: Not published.
+
 ## Drive Issues
 
 This section tracks the Google Drive findings, their publication state, and their external location when published.
