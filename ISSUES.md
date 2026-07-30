@@ -13,7 +13,7 @@ Next finding ID: ISSUE-2026-028
 - The metadata result is unused, while `ListFolder` can also identify missing paths and non-directory paths.
 - The report asks whether the redundant request can be removed without changing error mapping or observable behavior.
 
-Status: Published as an open GitHub issue.
+Status: Published as a closed GitHub issue (completed).
 Location: [rclone/rclone#9663](https://github.com/rclone/rclone/issues/9663)
 
 ### ISSUE-2026-002 — dropbox: known-size chunked uploads do not stop on early EOF
@@ -58,7 +58,7 @@ Location: Not published.
 - `uploadChunked` allocates the configured 48 MiB chunk buffer without considering the known source size.
 - The heap allocation is source-proven; peak RSS, garbage collection, and upload-time impact are not measured.
 
-Status: Published as an open GitHub issue.
+Status: Published as a closed GitHub issue (completed).
 Location: [rclone/rclone#9685](https://github.com/rclone/rclone/issues/9685)
 
 ### ISSUE-2026-007 — dropbox: known single-chunk uploads send an extra empty append request
@@ -67,7 +67,7 @@ Location: [rclone/rclone#9685](https://github.com/rclone/rclone/issues/9685)
 - The following loop iteration sends an empty `UploadSessionAppendV2` call with `Close=true`.
 - The extra data-transport call is source-proven; latency and rate-limit impact are not measured.
 
-Status: Published as an open GitHub issue.
+Status: Published as a closed GitHub issue (completed).
 Location: [rclone/rclone#9686](https://github.com/rclone/rclone/issues/9686)
 
 ### ISSUE-2026-008 — dropbox: backend SDK calls do not propagate caller cancellation
@@ -116,7 +116,7 @@ Location: [rclone/rclone#9687](https://github.com/rclone/rclone/issues/9687)
 - Historical issue #7025 proposed selecting on `ctx.Done()`, while PR #7026 fixed a different signaling condition.
 - Missing cancellation is source-proven; blocked-caller duration and teardown impact have not been measured.
 
-Status: Published as an open GitHub issue.
+Status: Published as a closed GitHub issue (duplicate of #7025).
 Location: [rclone/rclone#9690](https://github.com/rclone/rclone/issues/9690)
 
 ## VFS Issues
@@ -182,7 +182,7 @@ This section tracks the SMB findings, their publication state, and their externa
 - Its client, error, and ccache-mtime caches are instance-local and are discarded after one `GetClient` call.
 - Repeated parsing and client construction are source-proven; authentication latency and KDC requests are not measured.
 
-Status: Published as an open GitHub issue.
+Status: Published as a closed GitHub issue (completed).
 Location: [rclone/rclone#9674](https://github.com/rclone/rclone/issues/9674)
 
 ### ISSUE-2026-019 — smb: upload retains one connection while SetModTime acquires another
@@ -200,7 +200,7 @@ Location: [rclone/rclone#9675](https://github.com/rclone/rclone/issues/9675)
 - The probe and rename can address different paths when SMB filename encoding transforms the destination.
 - The mismatch is source-proven, but no encoded-destination failure has been reproduced against an SMB server.
 
-Status: Published as an open GitHub issue.
+Status: Published as a closed GitHub issue (completed).
 Location: [rclone/rclone#9677](https://github.com/rclone/rclone/issues/9677)
 
 ### ISSUE-2026-021 — smb: operation contexts do not cancel established SMB I/O
@@ -218,7 +218,7 @@ Location: Not published.
 - Errors from `obscure.Reveal`, `GetClient`, or `DialConn` return without explicitly closing the caller-owned connection.
 - The ownership gap is source-proven; file-descriptor or connection growth has not been measured.
 
-Status: Published as an open GitHub issue.
+Status: Published as a closed GitHub issue (completed).
 Location: [rclone/rclone#9678](https://github.com/rclone/rclone/issues/9678)
 
 ### ISSUE-2026-023 — smb: Put can return nil when an upload error leaves the object behind
@@ -254,7 +254,7 @@ Location: [rclone/rclone#9388 comment 5108715075](https://github.com/rclone/rclo
 - A successful `Stat` and every other error both produce `fs.ErrorDirExists`.
 - The mapping is source-proven, but permission and transport failure cases have not been reproduced.
 
-Status: Published as an open GitHub issue.
+Status: Published as a closed GitHub issue (completed).
 Location: [rclone/rclone#9680](https://github.com/rclone/rclone/issues/9680)
 
 ## Command Comments
