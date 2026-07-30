@@ -22,8 +22,8 @@ Location: [rclone/rclone#9663](https://github.com/rclone/rclone/issues/9663)
 - Early EOF can finalize at a shorter offset or repeatedly append empty chunks, depending on the declared remainder.
 - A realistic size-inconsistent source path and the resulting Dropbox behavior have not been reproduced.
 
-Status: Hold; not published.
-Location: Not published.
+Status: Published as an open GitHub issue.
+Location: [rclone/rclone#9704](https://github.com/rclone/rclone/issues/9704)
 
 ### ISSUE-2026-003 — dropbox: deep shared-folder roots use a path as the folder name
 
@@ -31,8 +31,8 @@ Location: Not published.
 - `NewFs` instead passes `path.Dir(f.root)` to a finder that compares it with a single shared-folder `Name`.
 - The source mismatch is established, but no deep-root failure has been reproduced against a Dropbox account.
 
-Status: Hold; not published.
-Location: Not published.
+Status: Published as an open GitHub issue.
+Location: [rclone/rclone#9705](https://github.com/rclone/rclone/issues/9705)
 
 ### ISSUE-2026-004 — dropbox: shared-mode lookup uses case-sensitive name matching
 
@@ -40,8 +40,8 @@ Location: Not published.
 - `findSharedFolder` and `findSharedFile` nevertheless compare requested and returned names with exact equality.
 - No shared folder or received shared file has been tested with a case-only difference in its requested name.
 
-Status: Hold; not published.
-Location: Not published.
+Status: Published as an open GitHub issue.
+Location: [rclone/rclone#9706](https://github.com/rclone/rclone/issues/9706)
 
 ### ISSUE-2026-005 — dropbox: received shared-file names bypass standard encoding conversion
 
@@ -49,8 +49,8 @@ Location: Not published.
 - `findSharedFile` then compares that raw remote name with the requested rclone name across the encoding boundary.
 - No received shared file whose name requires conversion has been used to reproduce a listing or lookup failure.
 
-Status: Hold; not published.
-Location: Not published.
+Status: Published as an open GitHub issue.
+Location: [rclone/rclone#9707](https://github.com/rclone/rclone/issues/9707)
 
 ### ISSUE-2026-006 — dropbox: small batched uploads allocate a full chunk-size retry buffer
 
@@ -209,8 +209,8 @@ Location: [rclone/rclone#9677](https://github.com/rclone/rclone/issues/9677)
 - SMB operation contexts currently affect connection setup but do not cancel later share I/O.
 - The limitation is documented in merged PR #8327; no stuck cancellation scenario has been reproduced.
 
-Status: Drafted as an enhancement issue; not published.
-Location: Not published.
+Status: Published as an open GitHub enhancement issue.
+Location: [rclone/rclone#9708](https://github.com/rclone/rclone/issues/9708)
 
 ### ISSUE-2026-022 — smb: failed connection setup paths do not close the TCP connection
 
