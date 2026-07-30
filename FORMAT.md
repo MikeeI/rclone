@@ -13,18 +13,35 @@ This file is the single source of truth for reporting rules for findings sent to
 - Write GitHub issues and comments in friendly, concise English.
 - Communicate with the user in the language of the surrounding conversation.
 
+## Finding IDs and Duplicate Prevention
+
+- Every ledger entry has one permanent ID in the form `ISSUE-YYYY-NNN`.
+- `YYYY` is the UTC year first recorded; `NNN` is that year's sequence with at least three digits.
+- `Next finding ID: ISSUE-YYYY-NNN` is the only allocator and MUST name the next unused ID.
+- Immediately before adding a finding, re-read the full ledger from one current snapshot.
+- Search all titles, summaries, symbols, and locations for the same symptom or root cause.
+- If the same root cause exists, update that entry; never allocate a duplicate.
+- For a new root cause, assign the allocator value on its first Hold or Drafted entry.
+- Increment the allocator in the same edit.
+- The ledger check does not replace the required upstream issue, pull request, and forum searches.
+- Never reuse, renumber, or scope IDs by backend, section, status, or session.
+- IDs persist through Hold, Drafted, and Published states; external numbers belong in `Location`.
+- At the first finding of a UTC year, start `ISSUE-YYYY-001`; never alter older IDs.
+- Entry headings use `### ISSUE-YYYY-NNN — <area>: <specific title>`.
+
 ## Required Research
 
 Before drafting anything:
 
 1. Read `ISSUES.md` and use its current finding ID, lifecycle status, target, and published location.
-2. Read the current upstream contribution guide and applicable issue template.
-3. Search open and closed issues for the same symptom, root cause, backend, and relevant symbols.
-4. Search open and merged pull requests for changes that own or introduced the relevant code.
-5. Search rclone forum discussions for the same symptom, root cause, backend, and relevant symbols.
-6. Read every potentially relevant issue, comment, pull request, review, forum thread, and current diff.
-7. Verify all source claims against the current upstream implementation and pinned dependency contracts.
-8. Record which effects are observed, source-proven, assumed, or not yet measured.
+2. Confirm that no ledger entry already owns the same root cause.
+3. Read the current upstream contribution guide and applicable issue template.
+4. Search open and closed issues for the same symptom, root cause, backend, and relevant symbols.
+5. Search open and merged pull requests for changes that own or introduced the relevant code.
+6. Search rclone forum discussions for the same symptom, root cause, backend, and relevant symbols.
+7. Read every potentially relevant issue, comment, pull request, review, forum thread, and current diff.
+8. Verify all source claims against the current upstream implementation and pinned dependency contracts.
+9. Record which effects are observed, source-proven, assumed, or not yet measured.
 
 A search result is only a candidate target.
 A matching word or symptom does not prove that an existing thread owns the same root cause.
@@ -261,7 +278,7 @@ draft: <complete proposed text>
 status: proposal only; not published
 ```
 
-For multiple findings, preserve their existing IDs and never combine independent root causes.
+For multiple findings, preserve their permanent finding IDs and never combine independent root causes.
 
 ## Publication Gate
 
