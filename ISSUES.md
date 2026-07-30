@@ -3,11 +3,11 @@
 This file is the sole source of truth for every finding's ID, lifecycle status, and published location.
 Read and update status here instead of inferring it from chat history or earlier search output.
 
+Next finding ID: ISSUE-2026-028
+
 ## Dropbox Issues
 
-`CP4` is split into `CP4a` and `CP4b` because they have independent root causes.
-
-### #9663 — dropbox: avoid redundant metadata request in Rmdir
+### ISSUE-2026-001 — dropbox: avoid redundant metadata request in Rmdir
 
 - `Rmdir` currently performs `GetMetadata`, `ListFolder`, and `DeleteV2` when removing an empty directory.
 - The metadata result is unused, while `ListFolder` can also identify missing paths and non-directory paths.
@@ -16,7 +16,7 @@ Read and update status here instead of inferring it from chat history or earlier
 Status: Published as an open GitHub issue.
 Location: [rclone/rclone#9663](https://github.com/rclone/rclone/issues/9663)
 
-### P1 — dropbox: known-size chunked uploads do not stop on early EOF
+### ISSUE-2026-002 — dropbox: known-size chunked uploads do not stop on early EOF
 
 - `uploadChunked` rejects readers that exceed their declared size but does not detect a known-size reader ending early.
 - Early EOF can finalize at a shorter offset or repeatedly append empty chunks, depending on the declared remainder.
@@ -25,7 +25,7 @@ Location: [rclone/rclone#9663](https://github.com/rclone/rclone/issues/9663)
 Status: Hold; not published.
 Location: Not published.
 
-### P2 — dropbox: deep shared-folder roots use a path as the folder name
+### ISSUE-2026-003 — dropbox: deep shared-folder roots use a path as the folder name
 
 - The `shared_folders` documentation says the first path component identifies the shared folder.
 - `NewFs` instead passes `path.Dir(f.root)` to a finder that compares it with a single shared-folder `Name`.
@@ -34,7 +34,7 @@ Location: Not published.
 Status: Hold; not published.
 Location: Not published.
 
-### CP4a — dropbox: shared-mode lookup uses case-sensitive name matching
+### ISSUE-2026-004 — dropbox: shared-mode lookup uses case-sensitive name matching
 
 - The Dropbox backend advertises `CaseInsensitive: true` for its filesystem behavior.
 - `findSharedFolder` and `findSharedFile` nevertheless compare requested and returned names with exact equality.
@@ -43,7 +43,7 @@ Location: Not published.
 Status: Hold; not published.
 Location: Not published.
 
-### CP4b — dropbox: received shared-file names bypass standard encoding conversion
+### ISSUE-2026-005 — dropbox: received shared-file names bypass standard encoding conversion
 
 - `listSharedFolders` applies `ToStandardName`, while `listReceivedFiles` stores the API-provided `Name` directly.
 - `findSharedFile` then compares that raw remote name with the requested rclone name across the encoding boundary.
@@ -52,7 +52,7 @@ Location: Not published.
 Status: Hold; not published.
 Location: Not published.
 
-### P5 — dropbox: small batched uploads allocate a full chunk-size retry buffer
+### ISSUE-2026-006 — dropbox: small batched uploads allocate a full chunk-size retry buffer
 
 - Default synchronous batching routes known small files through `uploadChunked`.
 - `uploadChunked` allocates the configured 48 MiB chunk buffer without considering the known source size.
@@ -61,7 +61,7 @@ Location: Not published.
 Status: Published as an open GitHub issue.
 Location: [rclone/rclone#9685](https://github.com/rclone/rclone/issues/9685)
 
-### P6 — dropbox: known single-chunk uploads send an extra empty append request
+### ISSUE-2026-007 — dropbox: known single-chunk uploads send an extra empty append request
 
 - A known positive size up to one chunk is first appended with `Close=false`.
 - The following loop iteration sends an empty `UploadSessionAppendV2` call with `Close=true`.
@@ -70,7 +70,7 @@ Location: [rclone/rclone#9685](https://github.com/rclone/rclone/issues/9685)
 Status: Published as an open GitHub issue.
 Location: [rclone/rclone#9686](https://github.com/rclone/rclone/issues/9686)
 
-### P7 — dropbox: backend SDK calls do not propagate caller cancellation
+### ISSUE-2026-008 — dropbox: backend SDK calls do not propagate caller cancellation
 
 - Dropbox client fields use non-context SDK interfaces even though backend methods receive a caller context.
 - The SDK wrappers run requests with `context.Background()`, while rclone checks cancellation only after each call returns.
@@ -79,7 +79,7 @@ Location: [rclone/rclone#9686](https://github.com/rclone/rclone/issues/9686)
 Status: Published as an open GitHub issue.
 Location: [rclone/rclone#9688](https://github.com/rclone/rclone/issues/9688)
 
-### P8 — dropbox: direct lookup of an exported Paper file duplicates its extension
+### ISSUE-2026-009 — dropbox: direct lookup of an exported Paper file duplicates its extension
 
 - `NewObject` preserves the caller-visible export path while resolving metadata from a possible underlying Paper path.
 - `setMetadataForExport` then appends the selected export extension to that already suffixed remote name.
@@ -88,7 +88,7 @@ Location: [rclone/rclone#9688](https://github.com/rclone/rclone/issues/9688)
 Status: Published as an open GitHub issue.
 Location: [rclone/rclone#9691](https://github.com/rclone/rclone/issues/9691)
 
-### P9 — dropbox: ChangeNotify root trimming assumes matching PathDisplay casing
+### ISSUE-2026-010 — dropbox: ChangeNotify root trimming assumes matching PathDisplay casing
 
 - `changeNotifyRunner` removes the configured root from `PathDisplay` with case-sensitive `strings.TrimPrefix`.
 - The pinned Dropbox SDK documents that `PathDisplay` casing may not match the user's filesystem in rare instances.
@@ -101,7 +101,7 @@ Location: [rclone/rclone#9692](https://github.com/rclone/rclone/issues/9692)
 
 This section tracks findings in backend-independent core packages.
 
-### P1 — batcher: Commit can be admitted after the shutdown marker
+### ISSUE-2026-011 — batcher: Commit can be admitted after the shutdown marker
 
 - `Commit` checks `closed` separately from sending its request to the batcher's input channel.
 - `Shutdown` can enqueue the quit request between those operations, leaving the admitted commit behind the marker.
@@ -110,7 +110,7 @@ This section tracks findings in backend-independent core packages.
 Status: Published as an open GitHub issue.
 Location: [rclone/rclone#9687](https://github.com/rclone/rclone/issues/9687)
 
-### P2 — batcher: Commit ignores caller cancellation while waiting
+### ISSUE-2026-012 — batcher: Commit ignores caller cancellation while waiting
 
 - `Commit` accepts a caller context but uses unconditional channel operations for admission and synchronous response waiting.
 - Historical issue #7025 proposed selecting on `ctx.Done()`, while PR #7026 fixed a different signaling condition.
@@ -123,7 +123,7 @@ Location: [rclone/rclone#9690](https://github.com/rclone/rclone/issues/9690)
 
 This section tracks findings in the virtual filesystem layer.
 
-### P1 — vfs: poll interval update can race with VFS shutdown
+### ISSUE-2026-013 — vfs: poll interval update can race with VFS shutdown
 
 - The `vfs/poll-interval` handler checks `pollChan` and later sends to it without lifecycle-spanning synchronization.
 - `VFS.Shutdown` can close and clear the same channel between the handler's check and send.
@@ -136,7 +136,7 @@ Location: [rclone/rclone#9689](https://github.com/rclone/rclone/issues/9689)
 
 This section tracks the Google Drive findings, their publication state, and their external location when published.
 
-### #9681 — drive: Rmdir lists trashed children when use_trash is enabled
+### ISSUE-2026-014 — drive: Rmdir lists trashed children when use_trash is enabled
 
 - `purgeCheck` lists the directory with `includeAll=true`, causing the Drive API to return trashed children.
 - When `UseTrash` is enabled, only non-trashed child existence affects whether `Rmdir` may remove the directory.
@@ -145,7 +145,7 @@ This section tracks the Google Drive findings, their publication state, and thei
 Status: Published as an open GitHub issue.
 Location: [rclone/rclone#9681](https://github.com/rclone/rclone/issues/9681)
 
-### #9682 — drive: permission cache mutex serializes metadata fetches
+### ISSUE-2026-015 — drive: permission cache mutex serializes metadata fetches
 
 - `parseMetadata` starts one bounded goroutine for every permission ID that needs fetching.
 - `getPermission` holds `permissionsMu` across the complete `Permissions.Get` API call, serializing those goroutines.
@@ -154,7 +154,7 @@ Location: [rclone/rclone#9681](https://github.com/rclone/rclone/issues/9681)
 Status: Published as an open GitHub issue.
 Location: [rclone/rclone#9682](https://github.com/rclone/rclone/issues/9682)
 
-### #9683 — drive: shortcut targets are resolved serially during listing
+### ISSUE-2026-016 — drive: shortcut targets are resolved serially during listing
 
 - The Drive listing loop calls `resolveShortcut` inline before processing the next listed item.
 - `resolveShortcut` performs a separate `Files.Get` request for each shortcut target.
@@ -163,7 +163,7 @@ Location: [rclone/rclone#9682](https://github.com/rclone/rclone/issues/9682)
 Status: Published as an open GitHub issue.
 Location: [rclone/rclone#9683](https://github.com/rclone/rclone/issues/9683)
 
-### #9684 — drive: resumable uploads allocate a new chunk buffer per file
+### ISSUE-2026-017 — drive: resumable uploads allocate a new chunk buffer per file
 
 - `resumableUpload.Upload` allocates a full `chunk_size` byte slice when each chunked upload starts.
 - The buffer is reused for that file's chunks but is not reused by later uploads.
@@ -176,7 +176,7 @@ Location: [rclone/rclone#9684](https://github.com/rclone/rclone/issues/9684)
 
 This section tracks the SMB findings, their publication state, and their external location when published.
 
-### #9674 — smb: Kerberos client cache is recreated for every connection
+### ISSUE-2026-018 — smb: Kerberos client cache is recreated for every connection
 
 - The SMB dial path creates a new `KerberosFactory` for every Kerberos connection.
 - Its client, error, and ccache-mtime caches are instance-local and are discarded after one `GetClient` call.
@@ -185,7 +185,7 @@ This section tracks the SMB findings, their publication state, and their externa
 Status: Published as an open GitHub issue.
 Location: [rclone/rclone#9674](https://github.com/rclone/rclone/issues/9674)
 
-### #9675 — smb: upload retains one connection while SetModTime acquires another
+### ISSUE-2026-019 — smb: upload retains one connection while SetModTime acquires another
 
 - `Object.Update` retains the upload connection until its deferred return after the file has been closed.
 - The following `SetModTime` call acquires a separate connection for `Chtimes` and `Stat`.
@@ -194,7 +194,7 @@ Location: [rclone/rclone#9674](https://github.com/rclone/rclone/issues/9674)
 Status: Published as an open GitHub issue.
 Location: [rclone/rclone#9675](https://github.com/rclone/rclone/issues/9675)
 
-### P1 — smb: DirMove checks the destination using a different path representation
+### ISSUE-2026-020 — smb: DirMove checks the destination using a different path representation
 
 - `DirMove` calls `Stat(dstPath)` before renaming with `f.toSambaPath(dstPath)`.
 - The probe and rename can address different paths when SMB filename encoding transforms the destination.
@@ -203,7 +203,7 @@ Location: [rclone/rclone#9675](https://github.com/rclone/rclone/issues/9675)
 Status: Published as an open GitHub issue.
 Location: [rclone/rclone#9677](https://github.com/rclone/rclone/issues/9677)
 
-### P2 — smb: operation contexts do not cancel established SMB I/O
+### ISSUE-2026-021 — smb: operation contexts do not cancel established SMB I/O
 
 - `go-smb2` uses `context.Background()` for established sessions and shares unless `WithContext` is called.
 - SMB operation contexts currently affect connection setup but do not cancel later share I/O.
@@ -212,7 +212,7 @@ Location: [rclone/rclone#9677](https://github.com/rclone/rclone/issues/9677)
 Status: Drafted as an enhancement issue; not published.
 Location: Not published.
 
-### P3 — smb: failed connection setup paths do not close the TCP connection
+### ISSUE-2026-022 — smb: failed connection setup paths do not close the TCP connection
 
 - `Fs.dial` opens `tconn` before password decoding, Kerberos client creation, and the SMB handshake.
 - Errors from `obscure.Reveal`, `GetClient`, or `DialConn` return without explicitly closing the caller-owned connection.
@@ -221,7 +221,7 @@ Location: Not published.
 Status: Published as an open GitHub issue.
 Location: [rclone/rclone#9678](https://github.com/rclone/rclone/issues/9678)
 
-### P4 — smb: Put can return nil when an upload error leaves the object behind
+### ISSUE-2026-023 — smb: Put can return nil when an upload error leaves the object behind
 
 - `Put` and `PutStream` return `nil, err` for every `Object.Update` failure.
 - The destination can remain after failed cleanup or a `SetModTime` error following a completed upload.
@@ -230,25 +230,25 @@ Location: [rclone/rclone#9678](https://github.com/rclone/rclone/issues/9678)
 Status: Published as an open GitHub issue.
 Location: [rclone/rclone#9679](https://github.com/rclone/rclone/issues/9679)
 
-### P5 — smb: dead pooled connections can be discarded without closing the TCP transport
+### ISSUE-2026-024 — smb: dead pooled connections can be discarded without closing the TCP transport
 
 - Open PR #9388 changes the exact connection-pool and file-pool discard lifecycle.
 - Its current dead-connection paths discard references without explicitly closing the caller-owned TCP transport.
 - The ownership gap is source-proven; transport-resource growth has not been measured.
 
 Status: Published as a comment on open GitHub pull request #9388.
-Location: [rclone/rclone#9388 P1 comment](https://github.com/rclone/rclone/pull/9388#issuecomment-5108852112)
+Location: [rclone/rclone#9388 comment 5108852112](https://github.com/rclone/rclone/pull/9388#issuecomment-5108852112)
 
-### PR #9388 P4 comment — smb: prefer matching-share connections before remounting
+### ISSUE-2026-025 — smb: prefer matching-share connections before remounting
 
 - `getConnection` removes the FIFO head without first looking for a later connection with the requested `shareName`.
 - It calls `mountShare` while holding `poolMu`, so a share change may perform `Umount` and `Mount` under the lock.
 - The flow is source-proven; mixed-share remount counts and latency impact have not been measured.
 
 Status: Published as a comment on open GitHub pull request #9388.
-Location: [rclone/rclone#9388 P4 comment](https://github.com/rclone/rclone/pull/9388#issuecomment-5108715075)
+Location: [rclone/rclone#9388 comment 5108715075](https://github.com/rclone/rclone/pull/9388#issuecomment-5108715075)
 
-### P6 — smb: DirMove reports destination exists for unrelated Stat errors
+### ISSUE-2026-026 — smb: DirMove reports destination exists for unrelated Stat errors
 
 - `DirMove` performs the rename only when the destination `Stat` returns `os.IsNotExist`.
 - A successful `Stat` and every other error both produce `fs.ErrorDirExists`.
@@ -261,7 +261,7 @@ Location: [rclone/rclone#9680](https://github.com/rclone/rclone/issues/9680)
 
 This section tracks published command-related comments and their external location.
 
-### #8127 comment — Support --files-from for copyUrl command
+### ISSUE-2026-027 — copyurl: URL batches create a separate HTTP client per entry
 
 - The comment identifies a separate HTTP client and transport for every CSV entry processed by `copyurl --urls`.
 - It proposes one batch-owned client so completed transfers to the same host can reuse pooled connections.

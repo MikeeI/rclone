@@ -23,6 +23,9 @@ Make sure added tests **actually test the code you have written** and test the i
 ## Finding Ledger
 
 - At the start of every agent session, agents MUST read the root `ISSUES.md` before any repository work.
+- Before adding a finding, agents MUST search every ledger entry and update an existing matching root cause.
+- New findings MUST use the global `Next finding ID` value and increment it in the same edit.
+- Finding IDs use `ISSUE-YYYY-NNN` and are permanent; NEVER reuse, renumber, or scope them.
 - Agents MUST update `ISSUES.md` in the same task whenever a finding is discovered or its status or location changes.
 - Every entry MUST contain a title, exactly three summary bullet lines, a publication status, and a location.
 - Use `Location: Not published.` when no external report exists; `FORMAT.md` remains authoritative for publication.
