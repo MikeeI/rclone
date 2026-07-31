@@ -3,7 +3,7 @@
 This file is the sole source of truth for every finding's ID, lifecycle status, and published location.
 Read and update status here instead of inferring it from chat history or earlier search output.
 
-Next finding ID: ISSUE-2026-028
+Next finding ID: ISSUE-2026-029
 
 ## Dropbox Issues
 
@@ -270,3 +270,12 @@ This section tracks published command-related comments and their external locati
 Status: Published as a comment on a closed GitHub issue.
 Location: [rclone/rclone#8127 comment](https://github.com/rclone/rclone/issues/8127#issuecomment-5087488288)
 Format note: Its follow-up PR offer conflicts with the current [FORMAT.md](FORMAT.md) prohibition on PR offers.
+
+### ISSUE-2026-028 — lsjson: requested hashes reread local files
+
+- `ListJSON` calls `Object.Hash` separately for every requested hash type.
+- The local backend opens and reads the file again whenever that individual hash is not cached.
+- Current measurements show one, four, and thirteen requested hashes produce matching numbers of full read passes.
+
+Status: Published as a comment on a closed GitHub issue.
+Location: [rclone/rclone#4181 comment 5138225391](https://github.com/rclone/rclone/issues/4181#issuecomment-5138225391)
