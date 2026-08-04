@@ -3,7 +3,7 @@
 This file is the sole source of truth for every finding's ID, lifecycle status, and published location.
 Read and update status here instead of inferring it from chat history or earlier search output.
 
-Next finding ID: ISSUE-2026-029
+Next finding ID: ISSUE-2026-032
 
 ## Dropbox Issues
 
@@ -97,6 +97,19 @@ Location: [rclone/rclone#9691](https://github.com/rclone/rclone/issues/9691)
 Status: Published as an open GitHub issue.
 Location: [rclone/rclone#9692](https://github.com/rclone/rclone/issues/9692)
 
+## Local Issues
+
+This section tracks findings in the local filesystem backend.
+
+### ISSUE-2026-029 — local: List performs a redundant stat before opening each directory
+
+- `List` calls `os.Stat` and then `os.Open` for every successfully listed directory without using the stat metadata.
+- A Linux syscall trace confirmed paired `newfstatat` and `openat` calls for each directory in a recursive local listing.
+- The redundant syscall is reproduced, but representative wall-clock impact across large directory trees is not measured.
+
+Status: Not published.
+Location: Not published.
+
 ## Core Issues
 
 This section tracks findings in backend-independent core packages.
@@ -118,6 +131,28 @@ Location: [rclone/rclone#9687](https://github.com/rclone/rclone/issues/9687)
 
 Status: Published as a closed GitHub issue (duplicate of #7025).
 Location: [rclone/rclone#9690](https://github.com/rclone/rclone/issues/9690)
+
+### ISSUE-2026-030 — walk: excluded objects repeatedly scan parent directory entries
+
+- The filtered `ListR` path calls `DirTree.Find` for every excluded object whose parent directory must remain visible.
+- `DirTree.Find` linearly scans the parent's entries, repeating the scan for excluded objects that share a parent.
+- The repeated cost path is source-proven, but affected directory widths, object counts, and runtime impact are not measured.
+
+Status: Not published.
+Location: Not published.
+
+## Archive Issues
+
+This section tracks findings in the archive backend.
+
+### ISSUE-2026-031 — archive: findFs scans every known archive for nested access
+
+- `findFs` scans the complete `archives` map for every `List` or `NewObject` lookup below a known archive.
+- The map already keys archives by path, so walking the requested path's ancestors can select the longest match directly.
+- The linear scan is source-proven, but archive counts, lookup frequency, and wall-clock impact are not measured.
+
+Status: Not published.
+Location: Not published.
 
 ## VFS Issues
 
