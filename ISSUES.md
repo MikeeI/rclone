@@ -149,7 +149,7 @@ This section tracks findings in the archive backend.
 
 - `findFs` scans the complete `archives` map for every `List` or `NewObject` lookup below a known archive.
 - The map already keys archives by path, so walking the requested path's ancestors can select the longest match directly.
-- An end-to-end local run rose from 0.23 seconds at 1,000 archives to 1.97 seconds at 5,000 archives; `findFs` used 73.8% of sampled CPU in the latter profile.
+- Latest-beta runs took 0.23 seconds for 1,000 archives and 2.16 seconds for 5,000; `findFs` held 72.1% CPU.
 
 Status: Not published.
 Location: Not published.
