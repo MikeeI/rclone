@@ -1,9 +1,10 @@
 # ISSUE-005 — dropbox: received shared-file names bypass standard encoding conversion
 
-State: Submitted
+State: Archived
 Authorized-Work: Research-and-Reporting
 Publication-Target: New-issue
 External-Reference: https://github.com/rclone/rclone/issues/9707
+Severity: Medium
 Contribution-Priority: Low
 Root-Cause-Confidence: High
 Finding-Category: Correctness
@@ -28,8 +29,8 @@ Impact [A]: Listing or lookup may fail for such names; no affected file was repr
 
 ## Prior-Art
 
-Coverage: legacy record cites its published issue only; current thread and source not rechecked; checked=2026-09-23.
-Gaps: A conversion-sensitive filename and upstream resolution are unverified.
+Coverage: Current `upstream/master` received-file conversion verified; full issue thread not rechecked; checked=2026-09-23.
+Gaps: Conversion-sensitive account reproduction and final discussion outcome remain unverified.
 
 - https://github.com/rclone/rclone/issues/9707 — Same reported root cause.
 
@@ -51,13 +52,13 @@ Apply the standard-name conversion consistently before matching received shared 
 
 ## Publication-Blockers
 
-Verify current source, issue outcome, and a representative filename before further action.
+Current listing converts received file names with `ToStandardName` before matching.
 
 ## Next-Action
 
-Summary: Verify source currentness
-Action: Inspect current upstream conversion and the complete issue thread.
-Done-When: Current behavior and thread outcome are recorded with pinned evidence.
+Summary: —
+Action: None.
+Done-When: None.
 
 ## Publication-Draft
 
@@ -69,3 +70,10 @@ Body:
 ```text
 The legacy ledger did not retain the submitted body. The root-cause and evidence sections preserve the available summary; this is not a verbatim copy of the published text.
 ```
+
+## Archive
+
+Archive-Reason: Fixed-Elsewhere
+Detail: Current upstream converts received shared-file names into standard encoding before exposing entries.
+Evidence: `backend/dropbox/dropbox.go:1016-1019` at `upstream/master@90e67915c88d4adf244f1d5251088c339c8b8e23`.
+Checked: 2026-09-23

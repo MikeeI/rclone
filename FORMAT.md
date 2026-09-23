@@ -28,6 +28,14 @@ Keep impact explicitly unmeasured when no representative measurement exists.
 Never convert a source-proven invariant into observed user impact.
 Preserve exact paths, symbols, commands, outputs, URLs, revisions, dates, and drafts.
 
+## Severity ranking
+
+- `High`: likely to cause a broad, material correctness, reliability, or safety failure during ordinary supported use.
+- `Medium`: causes a meaningful failure or cost on a bounded but realistic path, or demonstrated substantial cost on a large workload.
+- `Low`: affects a narrow edge case or adds limited overhead, with no established broad user harm.
+- Rank by current user and operational impact, not merely report status, code complexity, or contribution convenience.
+- `ISSUES.md` open rows are ordered by descending `Severity`; each issue record owns its rating and current-source evidence.
+
 ## Finding IDs and index
 
 - New IDs use `ISSUE-NNN`, start at `ISSUE-001`, contain at least three digits, and are never reused or renumbered.
@@ -49,6 +57,7 @@ Authorized-Work: Research-and-Reporting | Pull-Request-Implementation | Not-Sele
 Publication-Target: New-issue | Existing-issue-comment | New-pull-request | Existing-pull-request-comment | Not-Selected
 External-Reference: <exact URL or identifier | Not published.>
 Contribution-Priority: High | Medium | Low
+Severity: High | Medium | Low
 Root-Cause-Confidence: High | Medium | Low
 Finding-Category: Correctness | Reliability | Performance | Maintainability | API | UI | Build | Test | Other
 Created: <YYYY-MM-DD>

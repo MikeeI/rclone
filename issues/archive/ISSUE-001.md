@@ -4,6 +4,7 @@ State: Archived
 Authorized-Work: Research-and-Reporting
 Publication-Target: New-issue
 External-Reference: https://github.com/rclone/rclone/issues/9663
+Severity: Low
 Contribution-Priority: Low
 Root-Cause-Confidence: High
 Finding-Category: Performance

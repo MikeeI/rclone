@@ -4,6 +4,7 @@ State: Archived
 Authorized-Work: Research-and-Reporting
 Publication-Target: Existing-issue-comment
 External-Reference: https://github.com/rclone/rclone/issues/4181#issuecomment-5138225391
+Severity: Medium
 Contribution-Priority: Medium
 Root-Cause-Confidence: High
 Finding-Category: Performance

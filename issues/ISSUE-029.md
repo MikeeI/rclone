@@ -4,6 +4,7 @@ State: Investigating
 Authorized-Work: Not-Selected
 Publication-Target: Not-Selected
 External-Reference: Not published.
+Severity: Low
 Contribution-Priority: Low
 Root-Cause-Confidence: High
 Finding-Category: Performance
@@ -23,13 +24,13 @@ Impact [S]: One redundant syscall per successfully listed directory is reproduce
 
 ## Evidence
 
-- [S] Legacy ledger identifies unused `os.Stat` metadata before `os.Open`.
-- [O] Linux syscall trace observed paired `newfstatat` and `openat` calls for each directory in a recursive local listing; trace artifact and command are not retained.
+- [S] `backend/local/local.go:669` calls `os.Stat(fsDirPath)`, then `:675` calls `os.Open(fsDirPath)` without using stat metadata.
+- [O] Legacy Linux trace observed paired `newfstatat` and `openat` calls per listed directory; trace artifact and command were not retained.
 
 ## Prior-Art
 
-Coverage: no issue, PR, discussion, release, or forum search recorded; checked=2026-09-23.
-Gaps: Current source, trace reproduction, and prior-art search are required.
+Coverage: current `List` source checked; trace reproduction and all prior-art channels not checked; checked=2026-09-23.
+Gaps: Representative wall-clock impact and duplicate search are unverified.
 
 Contribution fit: Not assessed; publication target remains unselected.
 
@@ -49,10 +50,10 @@ Open the directory and obtain required metadata from the opened handle where com
 
 ## Publication-Blockers
 
-Current source verification, full prior-art search, evidence artifact, contribution fit, and user authorization remain unresolved.
+Current source confirms the redundant stat; trace artifact, runtime benefit, prior-art search, contribution fit, and user authorization remain unresolved.
 
 ## Next-Action
 
-Summary: Verify source currentness
-Action: Reproduce the redundant syscall trace against current `upstream/master`.
-Done-When: Pinned source and trace confirm or invalidate the finding.
+Summary: Measure directory-listing overhead
+Action: Reproduce the paired syscalls and measure representative local directory trees.
+Done-When: Pinned trace and bounded workload measurement are recorded.

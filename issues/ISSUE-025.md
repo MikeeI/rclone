@@ -4,6 +4,7 @@ State: Submitted
 Authorized-Work: Research-and-Reporting
 Publication-Target: Existing-pull-request-comment
 External-Reference: https://github.com/rclone/rclone/pull/9388#issuecomment-5108715075
+Severity: Medium
 Contribution-Priority: Low
 Root-Cause-Confidence: High
 Finding-Category: Performance
@@ -23,13 +24,14 @@ Impact [S]: Avoidable remount work and lock-held network operations may occur; r
 
 ## Evidence
 
-- [S] Legacy ledger identifies FIFO selection and the lock scope around share mounting.
+- [S] `backend/smb/connpool.go:168-178` holds `poolMu` while selecting only the FIFO head and calling `mountShare`.
+- [S] `mountShare:148-159` may perform `Umount` and `Mount` while that pool lock remains held.
 - [S] Published comment: https://github.com/rclone/rclone/pull/9388#issuecomment-5108715075
 
 ## Prior-Art
 
-Coverage: legacy record cites one comment on PR #9388; current diff and thread not rechecked; checked=2026-09-23.
-Gaps: PR state, current changed paths, and maintainer response are unknown.
+Coverage: current pool and mount source checked; complete PR diff/thread and broader prior art not rechecked; checked=2026-09-23.
+Gaps: Pool wait, remount count, PR state, and maintainer response remain unknown.
 
 - https://github.com/rclone/rclone/pull/9388 — Active diff was the reported context.
 
@@ -51,13 +53,13 @@ Select a matching-share connection before remounting and avoid holding `poolMu` 
 
 ## Publication-Blockers
 
-Recheck PR state, current diff, and comment response before further action.
+Current source confirms FIFO-head remounting under the shared pool lock; contention magnitude and current PR status remain unverified.
 
 ## Next-Action
 
-Summary: Verify thread currentness
-Action: Inspect PR #9388's current diff and the complete comment thread.
-Done-When: Current pool flow and thread outcome are recorded with pinned evidence.
+Summary: Inspect pooled-share contention
+Action: Measure pool wait and remount behavior with mixed-share concurrent requests.
+Done-When: Representative contention results and current PR outcome are recorded.
 
 ## Publication-Draft
 

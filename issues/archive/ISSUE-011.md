@@ -1,9 +1,10 @@
 # ISSUE-011 — batcher: Commit can be admitted after the shutdown marker
 
-State: Submitted
+State: Archived
 Authorized-Work: Research-and-Reporting
 Publication-Target: New-issue
 External-Reference: https://github.com/rclone/rclone/issues/9687
+Severity: Medium
 Contribution-Priority: Low
 Root-Cause-Confidence: High
 Finding-Category: Reliability
@@ -28,8 +29,8 @@ Impact [S]: A commit can remain unprocessed; runtime frequency and an observed b
 
 ## Prior-Art
 
-Coverage: legacy record cites its published issue; current source and thread not rechecked; checked=2026-09-23.
-Gaps: Current synchronization and observed runtime behavior are unverified.
+Coverage: Current `upstream/master` commit admission and shutdown ordering verified; full issue thread not rechecked; checked=2026-09-23.
+Gaps: Runtime race frequency and final discussion outcome remain unverified.
 
 - https://github.com/rclone/rclone/issues/9687 — Same reported root cause.
 
@@ -51,13 +52,13 @@ Synchronize admission and shutdown-marker ordering, if current source confirms t
 
 ## Publication-Blockers
 
-Verify current source, issue outcome, and an ordering reproduction before further action.
+Current `Commit` and `Shutdown` serialize admission and the shutdown marker with `admitMu`.
 
 ## Next-Action
 
-Summary: Verify source currentness
-Action: Inspect current batcher admission and shutdown logic.
-Done-When: Current interleaving and issue outcome are recorded with pinned evidence.
+Summary: —
+Action: None.
+Done-When: None.
 
 ## Publication-Draft
 
@@ -69,3 +70,10 @@ Body:
 ```text
 The legacy ledger did not retain the submitted body. The root-cause and evidence sections preserve the available summary; this is not a verbatim copy of the published text.
 ```
+
+## Archive
+
+Archive-Reason: Fixed-Elsewhere
+Detail: Current upstream serializes commit admission with the shutdown marker using `admitMu`.
+Evidence: `lib/batcher/batcher.go:243-245,266-273` at `upstream/master@90e67915c88d4adf244f1d5251088c339c8b8e23`.
+Checked: 2026-09-23

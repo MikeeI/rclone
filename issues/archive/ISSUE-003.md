@@ -1,9 +1,10 @@
 # ISSUE-003 — dropbox: deep shared-folder roots use a path as the folder name
 
-State: Submitted
+State: Archived
 Authorized-Work: Research-and-Reporting
 Publication-Target: New-issue
 External-Reference: https://github.com/rclone/rclone/issues/9705
+Severity: Low
 Contribution-Priority: Low
 Root-Cause-Confidence: High
 Finding-Category: Correctness
@@ -28,8 +29,8 @@ Impact [A]: The path/name mismatch may prevent selecting the intended shared fol
 
 ## Prior-Art
 
-Coverage: legacy record cites its published issue only; current thread and source not rechecked; checked=2026-09-23.
-Gaps: Deep-root behavior and upstream resolution are unverified.
+Coverage: Current `upstream/master` shared-folder root parsing verified; full issue thread not rechecked; checked=2026-09-23.
+Gaps: Account-based deep-root behavior and final discussion outcome remain unverified.
 
 - https://github.com/rclone/rclone/issues/9705 — Same reported root cause.
 
@@ -51,13 +52,13 @@ Resolve the first component as the shared-folder name and retain the remaining p
 
 ## Publication-Blockers
 
-Verify current source, issue outcome, and a deep-root reproduction before further action.
+Current source extracts the first root component as the shared-folder name before lookup.
 
 ## Next-Action
 
-Summary: Verify source currentness
-Action: Inspect current upstream lookup and the complete issue thread.
-Done-When: Current behavior and thread outcome are recorded with pinned evidence.
+Summary: —
+Action: None.
+Done-When: None.
 
 ## Publication-Draft
 
@@ -69,3 +70,10 @@ Body:
 ```text
 The legacy ledger did not retain the submitted body. The root-cause and evidence sections preserve the available summary; this is not a verbatim copy of the published text.
 ```
+
+## Archive
+
+Archive-Reason: Fixed-Elsewhere
+Detail: Current upstream resolves the shared-folder name from the first path component.
+Evidence: `backend/dropbox/dropbox.go:637-638,949-952` at `upstream/master@90e67915c88d4adf244f1d5251088c339c8b8e23`.
+Checked: 2026-09-23

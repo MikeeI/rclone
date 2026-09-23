@@ -4,6 +4,7 @@ State: Submitted
 Authorized-Work: Research-and-Reporting
 Publication-Target: New-issue
 External-Reference: https://github.com/rclone/rclone/issues/9708
+Severity: Medium
 Contribution-Priority: Low
 Root-Cause-Confidence: High
 Finding-Category: Reliability
@@ -23,13 +24,13 @@ Impact [S]: Canceling the caller context does not stop later SMB I/O; no stuck-c
 
 ## Evidence
 
-- [S] Legacy ledger cites merged PR #8327 and the library context contract.
+- [S] `backend/smb/connpool.go:126` states the context applies only to connection establishment; subsequent SMB session/share I/O has no operation-context wiring.
 - [S] Published enhancement: https://github.com/rclone/rclone/issues/9708
 
 ## Prior-Art
 
-Coverage: legacy record cites PR #8327 and its enhancement issue; current source and thread not rechecked; checked=2026-09-23.
-Gaps: Current dependency version, option wiring, and runtime cancellation are unverified.
+Coverage: current connection setup path checked; dependency contract, complete issue thread, and broader prior art not rechecked; checked=2026-09-23.
+Gaps: Runtime cancellation failure and issue resolution remain unverified.
 
 - https://github.com/rclone/rclone/issues/9708 — Same reported enhancement.
 - https://github.com/rclone/rclone/pull/8327 — Historical context behavior.
@@ -52,13 +53,13 @@ Pass caller context to established SMB sessions and shares where supported, afte
 
 ## Publication-Blockers
 
-Verify current dependency behavior, source wiring, and issue outcome before further action.
+Current source confirms the connection context boundary; runtime impact and full issue status remain unverified.
 
 ## Next-Action
 
-Summary: Verify source currentness
-Action: Inspect current SMB context wiring and the complete enhancement thread.
-Done-When: Current library contract and thread outcome are recorded with pinned evidence.
+Summary: Reproduce canceled SMB I/O
+Action: Reproduce cancellation during established SMB I/O and inspect the dependency context API.
+Done-When: Runtime behavior and current library contract are recorded.
 
 ## Publication-Draft
 

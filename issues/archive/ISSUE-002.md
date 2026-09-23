@@ -1,9 +1,10 @@
 # ISSUE-002 — dropbox: known-size chunked uploads do not stop on early EOF
 
-State: Submitted
+State: Archived
 Authorized-Work: Research-and-Reporting
 Publication-Target: New-issue
 External-Reference: https://github.com/rclone/rclone/issues/9704
+Severity: Medium
 Contribution-Priority: Low
 Root-Cause-Confidence: High
 Finding-Category: Reliability
@@ -28,8 +29,8 @@ Impact [S]: Upload termination can disagree with the declared size; no realistic
 
 ## Prior-Art
 
-Coverage: legacy record contains one published issue; current source and related work not rechecked; checked=2026-09-23.
-Gaps: Current source, final thread, and realistic reproduction are unverified.
+Coverage: Current `upstream/master` fix verified; full issue thread not rechecked; checked=2026-09-23.
+Gaps: Reproduction and final discussion outcome remain unverified.
 
 - https://github.com/rclone/rclone/issues/9704 — Same reported root cause.
 
@@ -51,13 +52,13 @@ Detect and return a suitable error on premature EOF for known-size input, if cur
 
 ## Publication-Blockers
 
-Verify current upstream source and thread state before taking further action.
+Current `uploadChunked` detects known-size early EOF and returns `io.ErrUnexpectedEOF`; no current fix is required.
 
 ## Next-Action
 
-Summary: Verify source currentness
-Action: Inspect current upstream `uploadChunked` and the complete issue thread.
-Done-When: Current behavior and thread outcome are recorded with pinned evidence.
+Summary: —
+Action: None.
+Done-When: None.
 
 ## Publication-Draft
 
@@ -69,3 +70,10 @@ Body:
 ```text
 The legacy ledger did not retain the submitted body. The root-cause and evidence sections preserve the available summary; this is not a verbatim copy of the published text.
 ```
+
+## Archive
+
+Archive-Reason: Fixed-Elsewhere
+Detail: Current upstream rejects known-size input that ends before its declared size.
+Evidence: `backend/dropbox/dropbox.go:2158-2164` at `upstream/master@90e67915c88d4adf244f1d5251088c339c8b8e23`.
+Checked: 2026-09-23

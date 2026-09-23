@@ -1,9 +1,10 @@
 # ISSUE-024 — smb: dead pooled connections can be discarded without closing the TCP transport
 
-State: Submitted
+State: Archived
 Authorized-Work: Research-and-Reporting
 Publication-Target: Existing-pull-request-comment
 External-Reference: https://github.com/rclone/rclone/pull/9388#issuecomment-5108852112
+Severity: Low
 Contribution-Priority: Low
 Root-Cause-Confidence: High
 Finding-Category: Reliability
@@ -28,8 +29,8 @@ Impact [S]: TCP ownership may be lost without transport close; resource growth i
 
 ## Prior-Art
 
-Coverage: legacy record cites one comment on PR #9388; current diff and thread not rechecked; checked=2026-09-23.
-Gaps: PR state, current changed paths, and maintainer response are unknown.
+Coverage: Current SMB dead-connection discard path verified; full PR #9388 diff and comment thread not rechecked; checked=2026-09-23.
+Gaps: Original PR lifecycle and maintainer response are unknown.
 
 - https://github.com/rclone/rclone/pull/9388 — Active diff was the reported context.
 
@@ -51,13 +52,13 @@ Close the owned transport when dead pooled connections are discarded, if the cur
 
 ## Publication-Blockers
 
-Recheck the PR state, exact current diff, and comment response before any follow-up.
+Current `putConnection` closes a connection when the SMB `Echo` health check fails.
 
 ## Next-Action
 
-Summary: Verify thread currentness
-Action: Inspect PR #9388's current diff and the complete comment thread.
-Done-When: Current ownership and thread outcome are recorded with pinned evidence.
+Summary: —
+Action: None.
+Done-When: None.
 
 ## Publication-Draft
 
@@ -69,3 +70,10 @@ Body:
 ```text
 The legacy ledger did not retain the submitted comment body. The root-cause and evidence sections preserve the available summary; this is not a verbatim copy of the published comment.
 ```
+
+## Archive
+
+Archive-Reason: Fixed-Elsewhere
+Detail: Current upstream closes the failed pooled connection before discarding it.
+Evidence: `backend/smb/connpool.go:207-215` at `upstream/master@90e67915c88d4adf244f1d5251088c339c8b8e23`.
+Checked: 2026-09-23

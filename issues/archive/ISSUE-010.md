@@ -1,9 +1,10 @@
 # ISSUE-010 — dropbox: ChangeNotify root trimming assumes matching PathDisplay casing
 
-State: Submitted
+State: Archived
 Authorized-Work: Research-and-Reporting
 Publication-Target: New-issue
 External-Reference: https://github.com/rclone/rclone/issues/9692
+Severity: Low
 Contribution-Priority: Low
 Root-Cause-Confidence: High
 Finding-Category: Correctness
@@ -28,8 +29,8 @@ Impact [A]: Relative paths may be incorrect; resulting VFS cache behavior is not
 
 ## Prior-Art
 
-Coverage: legacy record cites report only; current source and SDK contract not rechecked; checked=2026-09-23.
-Gaps: Current source, dependency contract, and final resolution are unverified.
+Coverage: Current `upstream/master` ChangeNotify root trimming verified; full issue thread not rechecked; checked=2026-09-23.
+Gaps: Rare casing behavior and final discussion outcome remain unverified.
 
 - https://github.com/rclone/rclone/issues/9692 — Same reported root cause.
 
@@ -51,13 +52,13 @@ Normalize root comparison according to Dropbox path casing semantics, if current
 
 ## Publication-Blockers
 
-Verify current source, pinned dependency contract, and issue outcome before further action.
+Current source trims Dropbox notification roots using case-insensitive `trimPrefixFold`.
 
 ## Next-Action
 
-Summary: Verify source currentness
-Action: Inspect current notification path handling and the complete issue thread.
-Done-When: Current behavior and thread outcome are recorded with pinned evidence.
+Summary: —
+Action: None.
+Done-When: None.
 
 ## Publication-Draft
 
@@ -69,3 +70,10 @@ Body:
 ```text
 The legacy ledger did not retain the submitted body. The root-cause and evidence sections preserve the available summary; this is not a verbatim copy of the published text.
 ```
+
+## Archive
+
+Archive-Reason: Fixed-Elsewhere
+Detail: Current upstream compares each root rune case-insensitively when trimming notification paths.
+Evidence: `backend/dropbox/dropbox.go:1686-1704,1777` at `upstream/master@90e67915c88d4adf244f1d5251088c339c8b8e23`.
+Checked: 2026-09-23

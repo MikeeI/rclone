@@ -1,9 +1,10 @@
 # ISSUE-014 — drive: Rmdir lists trashed children when use_trash is enabled
 
-State: Submitted
+State: Archived
 Authorized-Work: Research-and-Reporting
 Publication-Target: New-issue
 External-Reference: https://github.com/rclone/rclone/issues/9681
+Severity: Low
 Contribution-Priority: Low
 Root-Cause-Confidence: High
 Finding-Category: Performance
@@ -28,8 +29,8 @@ Impact [S]: The query includes irrelevant trashed children; request count, laten
 
 ## Prior-Art
 
-Coverage: legacy record cites published issue only; current source and thread not rechecked; checked=2026-09-23.
-Gaps: Current query and final resolution are unverified.
+Coverage: Current Drive `purgeCheck` query verified; full issue thread not rechecked; checked=2026-09-23.
+Gaps: Request count and final discussion outcome remain unverified.
 
 - https://github.com/rclone/rclone/issues/9681 — Same reported root cause.
 
@@ -51,13 +52,13 @@ Exclude trashed children from the emptiness check when `UseTrash` is enabled, if
 
 ## Publication-Blockers
 
-Verify current source, issue outcome, and Drive query semantics before further action.
+Current `purgeCheck` excludes trashed children when the directory will be moved to trash, except when `TrashedOnly` requires them.
 
 ## Next-Action
 
-Summary: Verify source currentness
-Action: Inspect current `purgeCheck` and the complete issue thread.
-Done-When: Current query behavior and thread outcome are recorded with pinned evidence.
+Summary: —
+Action: None.
+Done-When: None.
 
 ## Publication-Draft
 
@@ -69,3 +70,10 @@ Body:
 ```text
 The legacy ledger did not retain the submitted body. The root-cause and evidence sections preserve the available summary; this is not a verbatim copy of the published text.
 ```
+
+## Archive
+
+Archive-Reason: Fixed-Elsewhere
+Detail: Current upstream sets `includeAll := !UseTrash || TrashedOnly` for the emptiness query.
+Evidence: `backend/drive/drive.go:2767-2774` at `upstream/master@90e67915c88d4adf244f1d5251088c339c8b8e23`.
+Checked: 2026-09-23

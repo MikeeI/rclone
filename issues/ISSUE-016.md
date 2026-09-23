@@ -4,6 +4,7 @@ State: Submitted
 Authorized-Work: Research-and-Reporting
 Publication-Target: New-issue
 External-Reference: https://github.com/rclone/rclone/issues/9683
+Severity: Low
 Contribution-Priority: Low
 Root-Cause-Confidence: High
 Finding-Category: Performance
@@ -23,13 +24,13 @@ Impact [S]: Target requests are serial in the listing loop; shortcut density, li
 
 ## Evidence
 
-- [S] Legacy ledger identifies the inline call and separate `Files.Get` request.
+- [S] `backend/drive/drive.go:1168` calls `resolveShortcut` inline during listing; `resolveShortcut:2422` fetches target metadata before the next item.
 - [S] Published report: https://github.com/rclone/rclone/issues/9683
 
 ## Prior-Art
 
-Coverage: legacy record cites published issue only; current source and thread not rechecked; checked=2026-09-23.
-Gaps: Current listing flow and final resolution are unverified.
+Coverage: current `upstream/master` source checked; complete issue thread and broader prior-art search not rechecked; checked=2026-09-23.
+Gaps: Shortcut-density impact and issue resolution remain unverified.
 
 - https://github.com/rclone/rclone/issues/9683 — Same reported root cause.
 
@@ -51,13 +52,13 @@ Resolve shortcut targets concurrently or through a supported batch API, if curre
 
 ## Publication-Blockers
 
-Verify current source, API constraints, and issue outcome before further action.
+Current source confirms serial target lookup; the complete issue thread and representative shortcut workload remain unverified.
 
 ## Next-Action
 
-Summary: Verify source currentness
-Action: Inspect current shortcut listing flow and the complete issue thread.
-Done-When: Current request sequence and thread outcome are recorded with pinned evidence.
+Summary: Measure shortcut-listing cost
+Action: Measure request and listing-time cost across representative shortcut counts.
+Done-When: Repeatable workload and current issue outcome are recorded.
 
 ## Publication-Draft
 

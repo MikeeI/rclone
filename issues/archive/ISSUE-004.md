@@ -1,9 +1,10 @@
 # ISSUE-004 — dropbox: shared-mode lookup uses case-sensitive name matching
 
-State: Submitted
+State: Archived
 Authorized-Work: Research-and-Reporting
 Publication-Target: New-issue
 External-Reference: https://github.com/rclone/rclone/issues/9706
+Severity: Medium
 Contribution-Priority: Low
 Root-Cause-Confidence: High
 Finding-Category: Correctness
@@ -28,8 +29,8 @@ Impact [A]: Such lookups may fail despite the advertised case-insensitive behavi
 
 ## Prior-Art
 
-Coverage: legacy record cites its published issue only; current thread and source not rechecked; checked=2026-09-23.
-Gaps: Case-only behavior and upstream resolution are unverified.
+Coverage: Current `upstream/master` shared-name comparisons verified; full issue thread not rechecked; checked=2026-09-23.
+Gaps: Account-based case-only behavior and final discussion outcome remain unverified.
 
 - https://github.com/rclone/rclone/issues/9706 — Same reported root cause.
 
@@ -51,13 +52,13 @@ Use the backend's established case-insensitive name comparison in both shared-mo
 
 ## Publication-Blockers
 
-Verify current source, issue outcome, and the relevant case-insensitive contract before further action.
+Current shared-folder and shared-file finders use `strings.EqualFold`.
 
 ## Next-Action
 
-Summary: Verify source currentness
-Action: Inspect current upstream finders and the complete issue thread.
-Done-When: Current behavior and thread outcome are recorded with pinned evidence.
+Summary: —
+Action: None.
+Done-When: None.
 
 ## Publication-Draft
 
@@ -69,3 +70,10 @@ Body:
 ```text
 The legacy ledger did not retain the submitted body. The root-cause and evidence sections preserve the available summary; this is not a verbatim copy of the published text.
 ```
+
+## Archive
+
+Archive-Reason: Fixed-Elsewhere
+Detail: Current upstream applies case-insensitive equality to both shared folder and file lookups.
+Evidence: `backend/dropbox/dropbox.go:957-963,1039-1043` at `upstream/master@90e67915c88d4adf244f1d5251088c339c8b8e23`.
+Checked: 2026-09-23

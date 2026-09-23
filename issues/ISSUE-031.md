@@ -4,6 +4,7 @@ State: Investigating
 Authorized-Work: Not-Selected
 Publication-Target: Not-Selected
 External-Reference: Not published.
+Severity: Medium
 Contribution-Priority: Medium
 Root-Cause-Confidence: High
 Finding-Category: Performance
@@ -23,13 +24,13 @@ Impact [O]: Latest-beta runs took 0.23 seconds for 1,000 archives and 2.16 secon
 
 ## Evidence
 
-- [S] Legacy ledger records complete-map scanning for both callers and path-keyed map ownership.
-- [O] Latest-beta benchmark: 0.23 seconds at 1,000 archives; 2.16 seconds at 5,000; `findFs` held 72.1% CPU. Exact version, environment, and benchmark artifact are unavailable.
+- [S] `backend/archive/archive.go:459-477` scans the complete `archives` map for every lookup; `List` calls it at `:494` and `NewObject` is the other recorded caller.
+- [O] Legacy latest-beta benchmark took 0.23 seconds for 1,000 archives and 2.16 seconds for 5,000; `findFs` held 72.1% CPU; setup was not retained.
 
 ## Prior-Art
 
-Coverage: no issue, PR, discussion, release, or forum search recorded; checked=2026-09-23.
-Gaps: Current source, benchmark reproduction, and prior-art search are required.
+Coverage: current lookup source checked; benchmark reproduction and all prior-art channels not checked; checked=2026-09-23.
+Gaps: Benchmark repeatability, current `NewObject` call path, and duplicate search remain unverified.
 
 Contribution fit: Not assessed; publication target remains unselected.
 
@@ -49,10 +50,10 @@ Walk requested-path ancestors to select the longest matching known archive, if p
 
 ## Publication-Blockers
 
-Current source verification, benchmark artifact, prior-art search, contribution fit, and user authorization remain unresolved.
+Current source confirms map-wide lookup; benchmark reproduction, prior-art search, contribution fit, and user authorization remain unresolved.
 
 ## Next-Action
 
-Summary: Verify source currentness
-Action: Reproduce the archive-cardinality benchmark on current `upstream/master`.
-Done-When: Pinned source and repeatable benchmark confirm or invalidate the finding.
+Summary: Reproduce archive-scale benchmark
+Action: Reproduce timing and CPU profile across increasing archive counts.
+Done-When: Repeatable workload, lookup equivalence, and current profile are recorded.

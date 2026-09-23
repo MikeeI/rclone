@@ -1,9 +1,10 @@
 # ISSUE-019 — smb: upload retains one connection while SetModTime acquires another
 
-State: Submitted
+State: Archived
 Authorized-Work: Research-and-Reporting
 Publication-Target: New-issue
 External-Reference: https://github.com/rclone/rclone/issues/9675
+Severity: Low
 Contribution-Priority: Low
 Root-Cause-Confidence: High
 Finding-Category: Performance
@@ -28,8 +29,8 @@ Impact [S]: Two connections have overlapping lifetimes; connection/session count
 
 ## Prior-Art
 
-Coverage: legacy record cites published issue only; current source and thread not rechecked; checked=2026-09-23.
-Gaps: Current connection ownership and resolution are unverified.
+Coverage: Current SMB upload and modtime connection lifetimes verified; full issue thread not rechecked; checked=2026-09-23.
+Gaps: Connection-count and latency impact and final discussion outcome remain unmeasured.
 
 - https://github.com/rclone/rclone/issues/9675 — Same reported root cause.
 
@@ -51,13 +52,13 @@ Release the upload connection before follow-up metadata work or reuse it safely,
 
 ## Publication-Blockers
 
-Verify current source, pool ownership, and issue outcome before further action.
+Current `Update` returns the connection to the pool before calling `SetModTime`.
 
 ## Next-Action
 
-Summary: Verify source currentness
-Action: Inspect current upload and `SetModTime` connection lifetimes.
-Done-When: Current ownership and thread outcome are recorded with pinned evidence.
+Summary: —
+Action: None.
+Done-When: None.
 
 ## Publication-Draft
 
@@ -69,3 +70,10 @@ Body:
 ```text
 The legacy ledger did not retain the submitted body. The root-cause and evidence sections preserve the available summary; this is not a verbatim copy of the published text.
 ```
+
+## Archive
+
+Archive-Reason: Fixed-Elsewhere
+Detail: Current upstream returns the upload connection before the follow-up modtime call.
+Evidence: `backend/smb/smb.go:889-898` at `upstream/master@90e67915c88d4adf244f1d5251088c339c8b8e23`.
+Checked: 2026-09-23

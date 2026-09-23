@@ -1,9 +1,10 @@
 # ISSUE-009 — dropbox: direct lookup of an exported Paper file duplicates its extension
 
-State: Submitted
+State: Archived
 Authorized-Work: Research-and-Reporting
 Publication-Target: New-issue
 External-Reference: https://github.com/rclone/rclone/issues/9691
+Severity: Medium
 Contribution-Priority: Low
 Root-Cause-Confidence: High
 Finding-Category: Correctness
@@ -28,8 +29,8 @@ Impact [S]: The resulting object name can contain the extension twice; downstrea
 
 ## Prior-Art
 
-Coverage: legacy record cites its report only; current source and final thread not rechecked; checked=2026-09-23.
-Gaps: Current naming behavior and resolution are unverified.
+Coverage: Current `upstream/master` export-path detection and metadata conversion verified; full issue thread not rechecked; checked=2026-09-23.
+Gaps: Downstream Paper-object behavior and final discussion outcome remain unverified.
 
 - https://github.com/rclone/rclone/issues/9691 — Same reported root cause.
 
@@ -51,13 +52,13 @@ Avoid appending an export extension to a path that already represents the export
 
 ## Publication-Blockers
 
-Verify current source, thread outcome, and object naming before further action.
+Current source carries `remoteIsExportPath` through lookup, trims the Paper suffix, and avoids appending a second export suffix.
 
 ## Next-Action
 
-Summary: Verify source currentness
-Action: Inspect current export-name flow and the complete issue thread.
-Done-When: Current behavior and thread outcome are recorded with pinned evidence.
+Summary: —
+Action: None.
+Done-When: None.
 
 ## Publication-Draft
 
@@ -69,3 +70,10 @@ Body:
 ```text
 The legacy ledger did not retain the submitted body. The root-cause and evidence sections preserve the available summary; this is not a verbatim copy of the published text.
 ```
+
+## Archive
+
+Archive-Reason: Fixed-Elsewhere
+Detail: Current upstream distinguishes existing export paths and does not append another export extension.
+Evidence: `backend/dropbox/dropbox.go:779-780,852,1889-1913,1947-1951` at `upstream/master@90e67915c88d4adf244f1d5251088c339c8b8e23`.
+Checked: 2026-09-23
