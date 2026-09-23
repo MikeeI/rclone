@@ -1,311 +1,116 @@
-# GitHub Issue and Comment Reporting Format
+# Issue, Comment, and Pull Request Format
 
 ## Authority
 
-This file is the single source of truth for reporting rules for findings sent to the rclone project.
-`ISSUES.md` is the sole source of truth for finding IDs, lifecycle status, and published locations.
+`AGENTS.md` owns repository identity, contribution intent, branch roles, and repository rules.
+`ISSUES.md` owns the next finding ID and projects every finding's current state.
+`issues/ISSUE-NNN.md` is authoritative for one root cause, its evidence, lifecycle, drafts, and next action.
+This file owns finding fields and the research, implementation, and publication workflow.
+`skill-fork-contribution-tracking` owns workflow details; `skill-maintainer-communication` owns external research and writing quality.
+`skill-semantic-compression-3` owns meaning-preserving compression of tracking content.
+Current upstream contribution guides, forms, and templates override generic external formats.
 
-- The goal is to report findings only.
-- Never create, draft, offer, or propose a pull request.
-- Never implement a reported fix unless a later instruction explicitly changes this policy.
-- Default to proposal-only mode and show every draft to the user before publication.
-- Publish externally only after the user explicitly approves the exact draft and target.
-- Write GitHub issues and comments in friendly, concise English.
-- Communicate with the user in the language of the surrounding conversation.
-
-## Finding IDs and Duplicate Prevention
-
-- Every ledger entry has one permanent ID in the form `ISSUE-YYYY-NNN`.
-- `YYYY` is the UTC year first recorded; `NNN` is that year's sequence with at least three digits.
-- `Next finding ID: ISSUE-YYYY-NNN` is the only allocator and MUST name the next unused ID.
-- Immediately before adding a finding, re-read the full ledger from one current snapshot.
-- Search all titles, summaries, symbols, and locations for the same symptom or root cause.
-- If the same root cause exists, update that entry; never allocate a duplicate.
-- For a new root cause, assign the allocator value on its first Hold or Drafted entry.
-- Increment the allocator in the same edit.
-- The ledger check does not replace the required upstream issue, pull request, and forum searches.
-- Never reuse, renumber, or scope IDs by backend, section, status, or session.
-- IDs persist through Hold, Drafted, and Published states; external numbers belong in `Location`.
-- At the first finding of a UTC year, start `ISSUE-YYYY-001`; never alter older IDs.
-- Entry headings use `### ISSUE-YYYY-NNN — <area>: <specific title>`.
-
-## Required Research
-
-Before drafting anything:
-
-1. Read `ISSUES.md` and use its current finding ID, lifecycle status, target, and published location.
-2. Confirm that no ledger entry already owns the same root cause.
-3. Read the current upstream contribution guide and applicable issue template.
-4. Search open and closed issues for the same symptom, root cause, backend, and relevant symbols.
-5. Search open and merged pull requests for changes that own or introduced the relevant code.
-6. Search rclone forum discussions for the same symptom, root cause, backend, and relevant symbols.
-7. Read every potentially relevant issue, comment, pull request, review, forum thread, and current diff.
-8. Verify all source claims against the current upstream implementation and pinned dependency contracts.
-9. Record which effects are observed, source-proven, assumed, or not yet measured.
-
-A search result is only a candidate target.
-A matching word or symptom does not prove that an existing thread owns the same root cause.
-
-## Issue or Comment Decision
-
-Use this decision order for every finding.
-
-### Comment on an existing open issue
-
-Comment when all of the following are true:
-
-- The issue describes the same observable problem or the same root cause.
-- The new information materially advances diagnosis, evidence, reproduction, or resolution.
-- The comment will not redirect the issue to an unrelated performance or architecture topic.
-
-Do not comment merely because the same backend, error string, or API appears.
-Do not hijack an issue whose actual cause differs.
-
-### Comment on an existing open pull request
-
-Comment when all of the following are true:
-
-- The pull request currently changes the exact lifecycle, function, or invariant involved.
-- The finding identifies a correctness, ownership, resource, or concurrency gap in the current diff.
-- The comment is actionable within the current scope or clearly marked as an optional follow-up.
-
-Do not ask the author to absorb unrelated work.
-State explicitly when no scope expansion is requested.
-Never create or offer a competing pull request.
-
-### Open a new issue
-
-Open a new issue when any of the following is true:
-
-- No open issue or pull request owns the same root cause.
-- Existing matches are closed, historical, tangential, or based on a different cause.
-- The finding needs durable tracking beyond a temporary pull request discussion.
-- A merged pull request provides useful history but no active discussion target.
-
-Link relevant historical issues and pull requests without reopening or hijacking them.
-Use one issue per independent root cause.
-
-### Hold the finding without reporting it
-
-Do not publish when any of the following is true:
-
-- Reachability, root cause, or currentness is unverified.
-- The claim is only a static pattern without realistic cost or behavior evidence.
-- The proposed target is merely similar rather than directly relevant.
-- The report would duplicate information already present in the target thread.
-- The only support is an unmeasured severity or speculative production impact.
-
-Keep a proposal draft and state exactly which evidence is missing.
-
-### Ask the user
-
-Use the interactive ask mechanism before proceeding when:
-
-- Two targets are materially plausible and choosing one risks thread hijacking.
-- The choice between a new issue and a comment has meaningful visibility or scope trade-offs.
-- Required reproduction data, disclosure text, or publication scope is missing.
-- The requested action would publish externally and the exact draft has not been approved.
-
-Do not ask when research makes the correct target clear.
-Recommend the safest target when presenting a choice.
-
-## Evidence Contract
-
-Every report must label its evidence honestly.
-
-- Observed: reproduced behavior with command, version, environment, and output.
-- Source-proven: current control flow or API ownership proves the invariant.
-- Assumed: a necessary premise that has not been verified.
-- Not measured: latency, throughput, resource growth, or request-count impact lacks measurement.
-
-Rules:
-
-- Never convert a source-proven invariant into an observed user impact.
-- Never call something a leak without deterministic lifetime evidence or a resource-growth measurement.
-- Never claim a network request occurs when it only may occur for some cache or protocol states.
-- Never use internal severity labels such as Critical, High, Medium, or Low in upstream communication.
-- Use exact `path:line`, function, method, field, error, and API names where they disambiguate the claim.
-- Link the relevant issue or pull request when it establishes design intent or historical ownership.
-
-## Duplicate-Search Statement
-
-Every proposed report must include the applicable exact statement after its question and before its involvement text.
-
-For a new issue:
-
-```text
-I checked all relevant issues, comments, pull requests, and forum threads; this report is not a duplicate.
-```
-
-For an existing issue or pull request comment:
-
-```text
-I checked all relevant issues, comments, pull requests, and forum threads; this evidence is not already reported.
-```
-
-Make this confirmation only after completing the required research and fully reading every plausible prior-art candidate.
-If any plausible candidate is unavailable or unread, hold the finding instead.
-
-## Tone Contract
-
-- Start with appreciation when commenting on another contributor's work.
-- Use neutral phrases such as `I noticed`, `I may be missing context`, and `Would it make sense`.
-- Describe code behavior, not author intent or competence.
-- Ask one concrete question when maintainer input is needed.
-- Avoid blame, demands, alarmism, sarcasm, and rhetorical severity.
-- Keep one root cause and one requested decision per report.
-- Do not tag maintainers or previous authors unless they are already participating or the user explicitly approves it.
-- State that no pull request is planned when implementation is not being offered.
-
-## New Issue Format
-
-Use the official GitHub issue form when it requires named fields.
-Map the content below into the closest fields instead of fighting the form.
-
-### Title
-
-```text
-<area>: <specific observed or source-proven problem>
-```
-
-Title rules:
-
-- Name the affected area, such as `smb`.
-- State the concrete problem, not the proposed implementation.
-- Avoid severity words, speculation, and generic titles such as `performance issue`.
-
-### Body
-
-```markdown
-## Summary
-
-<One concise paragraph describing the observed or source-proven problem.>
+- Keep one durable record per independent root cause and retain its identifier through research, implementation, and publication.
+- Migrate legacy `ISSUE-YYYY-NNN` IDs to `ISSUE-NNN` by preserving the sequence; store the old year and sequence as `Legacy-ID: year=YYYY; sequence=NNN`.
+- Keep fork-only tracking files and commits out of upstream contribution diffs.
+- Verify source claims against the current canonical upstream branch.
+- Never infer reproduction, impact, resolution, or maintainer intent.
 
 ## Evidence
 
-- `<path:line>`: <specific control-flow, lifecycle, or ownership evidence>.
-- <Relevant command, output, API contract, issue, or pull request link>.
+Label each material claim at the point of use:
 
-## Impact
+- `[O]` Observed: behavior reproduced with command, version, environment, and result.
+- `[S]` Source-proven: current control flow, API ownership, or deterministic data flow proves the claim.
+- `[A]` Assumed: an unverified premise required by the claim.
 
-<Observed impact with measurement, or an explicit statement that the impact has not yet been measured.>
+Keep impact explicitly unmeasured when no representative measurement exists.
+Never convert a source-proven invariant into observed user impact.
+Preserve exact paths, symbols, commands, outputs, URLs, revisions, dates, and drafts.
 
-## Question
+## Finding IDs and index
 
-<One concrete question about ownership, expected behavior, or the preferred direction.>
+- New IDs use `ISSUE-NNN`, start at `ISSUE-001`, contain at least three digits, and are never reused or renumbered.
+- `Next finding ID: ISSUE-NNN` in `ISSUES.md` is the only allocator.
+- Before allocating, search the full index and every plausible open or archived record for the same root cause.
+- Update an existing record when it already owns that root cause; external numbers never replace internal IDs.
+- Create the record, add its index row, and advance the allocator in one change.
+- `ISSUES.md` is a projection; correct it from the authoritative record whenever they disagree.
+- Open rows project ID, title, State, Authorized-Work, Publication-Target, Contribution-Priority, Next-Action/Summary, and External-Reference.
+- Archived rows project ID, title, Authorized-Work, Publication-Target, Contribution-Priority, Archive-Reason, and External-Reference.
 
-I checked all relevant issues, comments, pull requests, and forum threads; this report is not a duplicate.
+## Record schema
 
-## Involvement
-
-I am reporting this finding only and am not currently proposing a pull request.
-
-Investigated extensively with GPT-5.6 Sol (xhigh reasoning effort), using [Oh My Pi](https://github.com/can1357/oh-my-pi) as the agent framework.
-```
-
-### Bug form additions
-
-When using the bug form, include every required field:
-
-- latest tested rclone version
-- operating system
-- backend
-- `rclone config redacted`
-- exact command
-- `-vv` log
-- deterministic reproduction steps
-
-Do not use the bug form for a source-only performance hypothesis without a reproducible user-visible problem.
-
-### Enhancement form additions
-
-Use the enhancement form when the invariant is source-proven but user-visible harm is not reproduced.
-State the current problem, the desired invariant, and what remains unmeasured.
-
-## Existing Issue Comment Format
-
-```markdown
-Hi, thanks for documenting this.
-
-I noticed one detail that may be relevant to the same root cause:
-
-- `<path:line>`: <new evidence>.
-- <Why this evidence changes or strengthens the current diagnosis>.
-
-<One concise question or proposed next diagnostic step.>
-
-I checked all relevant issues, comments, pull requests, and forum threads; this evidence is not already reported.
-
-I am only reporting the finding and am not currently proposing a pull request.
-
-Investigated extensively with GPT-5.6 Sol (xhigh reasoning effort), using [Oh My Pi](https://github.com/can1357/oh-my-pi) as the agent framework.
-```
-
-Only use this format when the existing issue owns the same root cause.
-Otherwise open a new issue or hold the finding.
-
-## Existing Pull Request Comment Format
-
-```markdown
-Hi, thanks for working on this.
-
-While reading the current diff, I noticed one possible <lifecycle, ownership, resource, or concurrency> gap:
-
-- `<changed path:line>`: <specific behavior in the current diff>.
-- `<related path or API contract>`: <why the current behavior may be incomplete>.
-
-Would it make sense to <one focused question or suggestion>?
-I may be missing ownership handled elsewhere.
-I checked all relevant issues, comments, pull requests, and forum threads; this evidence is not already reported.
-I am not suggesting a broader scope change or a separate pull request.
-
-Investigated extensively with GPT-5.6 Sol (xhigh reasoning effort), using [Oh My Pi](https://github.com/can1357/oh-my-pi) as the agent framework.
-```
-
-Keep review comments scoped to the active diff.
-Move independent follow-up ideas to a new issue only after user approval.
-
-## Condensed Output Contract
-
-When proposing reports to the user, output each candidate in this stable order:
+Every `issues/ISSUE-NNN.md` starts with these fields in this order:
 
 ```text
-target: <new issue | issue #N | PR #N>
-action: <open issue | comment | hold>
-reason: <one sentence>
-title: <new issue title, otherwise omit>
-draft: <complete proposed text>
-status: proposal only; not published
+State: Investigating | Draft-Ready | Implementing | PR-Ready | Submitted | Archived
+Authorized-Work: Research-and-Reporting | Pull-Request-Implementation | Not-Selected
+Publication-Target: New-issue | Existing-issue-comment | New-pull-request | Existing-pull-request-comment | Not-Selected
+External-Reference: <exact URL or identifier | Not published.>
+Contribution-Priority: High | Medium | Low
+Root-Cause-Confidence: High | Medium | Low
+Finding-Category: Correctness | Reliability | Performance | Maintainability | API | UI | Build | Test | Other
+Created: <YYYY-MM-DD>
+Updated: <YYYY-MM-DD>
+Source: `upstream/<branch>@<commit>`
+Legacy-ID: <year and sequence of prior ID | None.>
 ```
 
-For multiple findings, preserve their permanent finding IDs and never combine independent root causes.
+Required sections, in order: `Root-Cause`, `Reach-and-Impact`, `Evidence`, `Prior-Art`, `Proposed-Change`, `Scope-and-Constraints`, `Verification`, `Publication-Blockers`, and `Next-Action`.
+Every open record has one `Next-Action` with `Summary`, `Action`, and `Done-When` fields.
+Use `Bug-Reproduction`, `Performance-Evidence`, `Shared-Change-Pressure`, and `API-and-Compatibility` only when applicable.
+Use `Pull-Request-Implementation`, `Publication-Draft`, and `Submitted-Text` only when applicable.
+Archived records additionally have `Archive` with `Archive-Reason`, `Detail`, `Evidence`, and `Checked`.
 
-## Publication Gate
+## Prior art and contribution decision
 
-Before publishing, verify every item:
+For a new thread, search open and closed issues, pull requests, discussions, release notes, and project-linked forums by symptom, component, error, symbol, cause, and proposed fix.
+Read every plausible match and linked context; classify it as duplicate, related, fixed or superseded, or distinct.
+Record search coverage and gaps honestly; a search result alone does not establish shared root cause.
+Before replying, read the complete thread, linked context, later patches, and releases.
+Recommend in order: a verified bounded pull request when no active implementation owns it; otherwise a useful comment on the canonical thread; otherwise a new issue; otherwise continued investigation.
+The user selects `Authorized-Work` and `Publication-Target`; the recommendation is not authorization.
 
-- The target still exists and its state has not changed.
-- The finding's ID, lifecycle status, target, and published location match `ISSUES.md`.
-- The draft matches the latest source or current pull request diff.
-- The report adds information not already present.
-- Every material claim has evidence or an explicit uncertainty label.
-- The tone is friendly and non-accusatory.
-- The report contains no pull request offer or implementation commitment.
-- The exact disclosure footer is the final paragraph.
-- The applicable duplicate-search statement is present and every plausible prior-art candidate was fully read.
-- The user approved the exact target and final text.
+## Lifecycle and authorization
 
-After publication, record the exact target, published status, and URL in `ISSUES.md` before returning only the
-created issue or comment URLs and a concise status.
+- `Investigating`: evidence, currentness, authorization, target, or direction is unresolved; state blockers and one bounded next action.
+- `Draft-Ready`: research, authorization, target, and exact draft are complete; this state does not authorize publication.
+- `Implementing`: authorized `Pull-Request-Implementation` is in progress; record branch, base, scope, commit, push, and checks.
+- `PR-Ready`: authorized implementation is complete, verified, committed, pushed, and has an exact pull request draft and target.
+- `Submitted`: an observable external issue, comment, or pull request exists; record its exact URL and submitted text if it differs from the draft.
+- `Archived`: no current action remains and an evidence-backed `Archive-Reason` is recorded.
+- Map legacy Hold to Investigating, Drafted to Draft-Ready, Ready to PR-Ready, and Published to Submitted.
+- Map Closed and Rejected to Archived while preserving the exact prior outcome in `Archive-Reason` or `Detail`.
+- Map Fixed to Fixed-Elsewhere, Declined to Upstream-Declined, and Invalid to Finding-Invalidated.
+- Preserve Merged, Duplicate, Superseded, and Withdrawn; map other exact outcomes to Other and preserve the literal in `Detail`.
+- Never infer resolution from inactivity or a closed thread; archive only when no current action remains.
+- Keep open records under `issues/`; move archived records to `issues/archive/` and update the index in the same change.
 
-## Prohibited Actions
+## Implementation boundary
 
-- Never create, draft, propose, or offer a pull request.
-- Never implement code as part of this reporting workflow.
-- Never publish without explicit approval of the exact draft.
-- Never cross-post the same finding to multiple threads.
-- Never revive a closed issue with an unrelated new root cause.
-- Never use an active issue as a generic backend discussion.
-- Never report unverified static patterns as production bugs.
-- Never hide uncertainty or fabricate measurements, commands, logs, or maintainer intent.
-- Never alter the required disclosure footer.
+`Research-and-Reporting` permits research, drafting, issues, and comments, but no source implementation.
+`Pull-Request-Implementation` authorizes only the exact source scope recorded in that finding.
+Use a clean contribution branch or worktree based on the current project-defined upstream branch.
+Exclude `AGENTS.md`, `FORMAT.md`, `ISSUES.md`, and `issues/` from upstream contribution diffs.
+Resolve callers, compatibility, lifecycle, and failure modes before changing shared behavior.
+Run the narrowest conclusive repository-owned checks and record their observed results.
+Apply the repository commit convention to each coherent commit.
+
+## Publication
+
+Use current upstream forms and templates; preserve their required field order.
+Store the exact title and body under `Publication-Draft` once Draft-Ready or PR-Ready.
+Before publication, re-check source currentness, prior art, target ownership, external template, evidence, and exact draft.
+For migrated submissions whose verbatim title or body was not retained, state that gap explicitly in `Publication-Draft`; never invent submitted text.
+
+Show the complete exact draft and target to the user before every external write; publish only after the user approves that exact draft and target.
+A changed draft or target requires presenting the complete current version again.
+After publication, immediately record the exact URL, submitted text, and State.
+Never cross-post one finding, publish speculative or duplicate material, or make an unsupported implementation commitment.
+
+## Validation
+
+Run the read-only validator bundled with `skill-fork-contribution-tracking` after every ledger mutation and before completion.
+Pass this repository root as its positional argument.
+The validator checks IDs, records, links, projections, and lifecycle structure; it does not verify factual evidence or contribution value.

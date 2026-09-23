@@ -8,6 +8,40 @@ Rclone welcomes AI-assisted contributions, but the expectation is that you, the 
 
 Rclone is a command-line program to sync files and directories to and from cloud storage providers. It's written in Go and supports 70+ backends (cloud storage systems). Think "rsync for cloud storage".
 
+## Fork & Upstream Contribution Intent
+
+- Official upstream: [rclone/rclone](https://github.com/rclone/rclone), using `upstream/master` as the contribution base.
+- This checkout is the [MikeeI/rclone](https://github.com/MikeeI/rclone) fork.
+- Use this personal branch for durable research, finding records, and fork-owned context.
+- Use a clean branch or worktree based on current `upstream/master` for upstream-ready source changes.
+- Keep fork-only context, tracking files, and commits out of upstream contribution diffs.
+- Apply `skill-fork-contribution-tracking` for ledger, lifecycle, personal-branch, and upstream handoff work.
+- Apply `skill-maintainer-communication` before external issues, pull requests, reviews, comments, or discussions.
+- Apply `skill-semantic-compression-3` when authoring or restructuring tracking content.
+- Apply `skill-git-commit-format` while respecting rclone's directory-prefixed commit convention.
+- The user selects authorized work and publication target; recommendations do not authorize implementation or external publication.
+- Reproduce claimed bugs against current upstream and run the narrowest conclusive verification.
+
+## Finding and Contribution Ledger
+
+- At the start of every agent session, agents MUST read root `ISSUES.md` before repository work.
+- `ISSUES.md` owns the `Next finding ID` allocator and compact cross-finding projection.
+- Each `issues/ISSUE-NNN.md` owns one finding's complete state, evidence, drafts, and next action.
+- `FORMAT.md` owns the record schema, evidence labels, lifecycle, implementation boundaries, and publication rules.
+- Before adding a finding, search the index and every plausible open or archived record for the same root cause.
+- New findings MUST use `Next finding ID`; create the issue file, add its index row, and advance the allocator together.
+- Canonical IDs use `ISSUE-NNN`; migrated prior IDs remain recorded as `Legacy-ID` and are never reused.
+- Update the issue file and `ISSUES.md` together after every state, authorization, target, priority, next-action, reference, or path change.
+- Preserve one permanent issue ID for each root cause across research, implementation, and publication.
+- Run the read-only validator bundled with `skill-fork-contribution-tracking` after every ledger mutation.
+- Keep `AGENTS.md`, `FORMAT.md`, `ISSUES.md`, and `issues/` out of upstream contribution diffs.
+
+### External publication approval
+
+Before any external issue, comment, review, discussion, or pull request write, show the exact current draft and target and obtain the user's approval.
+Any draft or target change requires presenting the complete current version again.
+Cite current upstream guidance and follow its form, disclosure, and contribution rules.
+
 ## General Notes
 
 **We take backwards compatibility very seriously.** PRs should not change the observable behaviour of existing commands, flags or rc API without very good reason. Rclone does not try to preserve a stable Go API but try not to change it gratuitously.
@@ -19,16 +53,6 @@ The core parts of rclone under `fs` and `vfs` need to work with all backends and
 **Changes should be kept to the minimum.** Work hard to make the most elegant, smallest change you can. Do not refactor or re-order code unless necessary as this makes review more challenging. Re-use existing test scaffolding, existing or library routines (e.g. `lib`) where possible.
 
 Make sure added tests **actually test the code you have written** and test the intention behind the change. If you are fixing a problem, write the tests first to reproduce the problem before starting on the fix.
-
-## Finding Ledger
-
-- At the start of every agent session, agents MUST read the root `ISSUES.md` before any repository work.
-- Before adding a finding, agents MUST search every ledger entry and update an existing matching root cause.
-- New findings MUST use the global `Next finding ID` value and increment it in the same edit.
-- Finding IDs use `ISSUE-YYYY-NNN` and are permanent; NEVER reuse, renumber, or scope them.
-- Agents MUST update `ISSUES.md` in the same task whenever a finding is discovered or its status or location changes.
-- Every entry MUST contain a title, exactly three summary bullet lines, a publication status, and a location.
-- Use `Location: Not published.` when no external report exists; `FORMAT.md` remains authoritative for publication.
 
 ## Build and Test Commands
 
